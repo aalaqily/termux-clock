@@ -5,29 +5,29 @@ use crate::frontend::Frontend;
 pub struct Android;
 
 impl Frontend for Android {
-    fn set_timer(length: Option<&str>, message: Option<&str>) {
-        let mut args: Vec<&str> = vec![
-            "start",
-            "-a",
-            "android.intent.action.SET_TIMER",
-            "--ez",
-            "android.intent.extra.alarm.SKIP_UI",
-            "true",
+    fn set_timer(length: Option<u32>, message: Option<String>) {
+        let mut args: Vec<String> = vec![
+            "start".to_string(),
+            "-a".to_string(),
+            "android.intent.action.SET_TIMER".to_string(),
+            "--ez".to_string(),
+            "android.intent.extra.alarm.SKIP_UI".to_string(),
+            "true".to_string(),
         ];
 
         match length {
             Some(l) => {
-                args.push("--ei");
-                args.push("android.intent.extra.alarm.LENGTH");
-                args.push(l);
+                args.push("--ei".to_string());
+                args.push("android.intent.extra.alarm.LENGTH".to_string());
+                args.push(l.to_string());
             }
             None => (),
         };
-	
+
         match message {
             Some(m) => {
-                args.push("--es");
-                args.push("android.intent.extra.alarm.MESSAGE");
+                args.push("--es".to_string());
+                args.push("android.intent.extra.alarm.MESSAGE".to_string());
                 args.push(m);
             }
             None => (),
@@ -35,11 +35,8 @@ impl Frontend for Android {
 
         #[cfg(debug_assertions)]
         {
-            println!("\x1b[1;34mcommand:\x1b[0m");
-            for arg in (&args).iter() {
-                print!("{} ", arg);
-            }
-            println!();
+            let args = &args.join(" ");
+            dbg!(args);
         }
 
         let command = Command::new("am")
@@ -48,56 +45,68 @@ impl Frontend for Android {
             .expect("Unable to set timer");
 
         #[cfg(debug_assertions)]
-        println!("\x1b[1;34mstatus:\x1b[0m\n{}\n\x1b[1;34mstdout:\x1b[0m\n{}\n\x1b[1;34mstderr:\x1b[0m\n{}", command.status, String::from_utf8(command.stdout).unwrap(), String::from_utf8(command.stderr).unwrap());
+        {
+            let status = command.status;
+            let stdout = String::from_utf8(command.stdout).unwrap();
+            let stderr = String::from_utf8(command.stderr).unwrap();
+            dbg!(status);
+            dbg!(stdout);
+            dbg!(stderr);
+        }
     }
 
     fn set_alarm(
-        hour: Option<&str>,
-        minutes: Option<&str>,
-        days: Option<&str>,
-        message: Option<&str>,
-        vibrate: Option<&str>,
+        hour: Option<u32>,
+        minutes: Option<u32>,
+        days: Option<Vec<u32>>,
+        message: Option<String>,
+        vibrate: Option<bool>,
     ) {
-        let mut args: Vec<&str> = vec![
-            "start",
-            "-a",
-            "android.intent.action.SET_ALARM",
-            "--ez",
-            "android.intent.extra.alarm.SKIP_UI",
-            "true",
+        let mut args: Vec<String> = vec![
+            "start".to_string(),
+            "-a".to_string(),
+            "android.intent.action.SET_ALARM".to_string(),
+            "--ez".to_string(),
+            "android.intent.extra.alarm.SKIP_UI".to_string(),
+            "true".to_string(),
         ];
 
         match hour {
             Some(h) => {
-                args.push("--ei");
-                args.push("android.intent.extra.alarm.HOUR");
-                args.push(h);
+                args.push("--ei".to_string());
+                args.push("android.intent.extra.alarm.HOUR".to_string());
+                args.push(h.to_string());
             }
             None => (),
         };
-	
+
         match minutes {
             Some(m) => {
-                args.push("--ei");
-                args.push("android.intent.extra.alarm.MINUTES");
-                args.push(m);
+                args.push("--ei".to_string());
+                args.push("android.intent.extra.alarm.MINUTES".to_string());
+                args.push(m.to_string());
             }
             None => (),
         };
 
         match days {
             Some(d) => {
-                args.push("--eial");
-                args.push("android.intent.extra.alarm.DAYS");
-                args.push(d);
+                args.push("--eial".to_string());
+                args.push("android.intent.extra.alarm.DAYS".to_string());
+                args.push(
+                    d.iter()
+                        .map(|n| n.to_string())
+                        .collect::<Vec<String>>()
+                        .join(","),
+                );
             }
             None => (),
         };
 
         match message {
             Some(m) => {
-                args.push("--es");
-                args.push("android.intent.extra.alarm.MESSAGE");
+                args.push("--es".to_string());
+                args.push("android.intent.extra.alarm.MESSAGE".to_string());
                 args.push(m);
             }
             None => (),
@@ -105,20 +114,17 @@ impl Frontend for Android {
 
         match vibrate {
             Some(v) => {
-                args.push("--ez");
-                args.push("android.intent.extra.alarm.VIBRATE");
-                args.push(v);
+                args.push("--ez".to_string());
+                args.push("android.intent.extra.alarm.VIBRATE".to_string());
+                args.push(v.to_string());
             }
             None => (),
         };
 
         #[cfg(debug_assertions)]
         {
-            println!("\x1b[1;34mcommand:\x1b[0m");
-            for arg in (&args).iter() {
-                print!("{} ", arg);
-            }
-            println!();
+            let args = &args.join(" ");
+            dbg!(args);
         }
 
         let command = Command::new("am")
@@ -127,6 +133,13 @@ impl Frontend for Android {
             .expect("Unable to set alarm");
 
         #[cfg(debug_assertions)]
-        println!("\x1b[1;34mstatus:\x1b[0m\n{}\n\x1b[1;34mstdout:\x1b[0m\n{}\n\x1b[1;34mstderr:\x1b[0m\n{}", command.status, String::from_utf8(command.stdout).unwrap(), String::from_utf8(command.stderr).unwrap());
+        {
+            let status = command.status;
+            let stdout = String::from_utf8(command.stdout).unwrap();
+            let stderr = String::from_utf8(command.stderr).unwrap();
+            dbg!(status);
+            dbg!(stdout);
+            dbg!(stderr);
+        }
     }
 }
