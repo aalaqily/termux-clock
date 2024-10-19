@@ -9,7 +9,7 @@ impl Frontend for Termux {
         let mut args: Vec<String> = vec!["-c".to_string()];
         match length {
             Some(l) => {
-                args.push(format!("sleep {} ", l));
+                args.push(format!("sleep {} &", l));
             }
             None => (),
         }
@@ -17,7 +17,7 @@ impl Frontend for Termux {
             Some(m) => {
                 &args[1].push_str(
                     format!(
-                        "&& termux-notification --title \"Termux Timer ({}s)\" --content \"{}\"",
+                        "& termux-notification --title \"Termux Timer ({}s)\" --content \"{}\" &",
                         length.unwrap(),
                         m
                     )
@@ -25,11 +25,9 @@ impl Frontend for Termux {
                 );
             }
             None => {
-                &args[1].push_str(format!("&& termux-notification --title \"Termux Timer ({}s)\" --content \"Timer finished\"", length.unwrap()).as_str());
+                &args[1].push_str(format!("& termux-notification --title \"Termux Timer ({}s)\" --content \"Timer finished\" &", length.unwrap()).as_str());
             }
         }
-
-        args.push("&".to_string());
 
         #[cfg(debug_assertions)]
         dbg!(&args);
