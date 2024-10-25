@@ -1,5 +1,5 @@
 [package]
-name = "clock"
+name = "termux-clock"
 version = "0.1.0"
 edition = "2021"
 
