@@ -111,24 +111,14 @@ jobs:
     permissions:
       contents: write
 
-    strategy:
-      matrix:
-        target:
-          - aarch64-linux-android       # 64-bit ARM
-          - i686-linux-android           # 32-bit x86
-          - x86_64-linux-android         # 64-bit x86
-          - arm-linux-androideabi        # 32-bit ARM (older ABI)
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.tag || github.ref }}  # Ensure it checks out the correct tag
       
-      - name: Download Termux package artifact
+      - name: Download Termux package artifacts
         uses: actions/download-artifact@v3
-        with:
-          name: ${{ matrix.target }}
 
       - name: Publish release
         uses: ghalactic/github-release-from-tag@v5
