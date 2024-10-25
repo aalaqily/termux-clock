@@ -113,16 +113,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.tag || github.ref }}  # Ensure it checks out the correct tag
+          ref: ${{ github.event.inputs.tag || github.ref }}
       
       - name: Download Termux package artifacts
         uses: actions/download-artifact@v3
-
+        
       - name: Publish release
         uses: ghalactic/github-release-from-tag@v5
         with:
           generateReleaseNotes: true
           assets: |
-            - path: termux-clock*.deb
+            - path: aarch64-linux-android/termux-clock*.deb
+            - path: i686-linux-android/termux-clock*.deb
+            - path: x86_64-linux-android/termux-clock*.deb
+            - path: arm-linux-androideabi/termux-clock*.deb
