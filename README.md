@@ -1,6 +1,76 @@
 # Termux Clock
 [![WIP](https://img.shields.io/badge/%F0%9F%9B%A0-WIP-cyan)](#)
 [![Rust](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/rust.yml?label=Rust&logo=rust)](https://github.com/iahmadgad/termux-clock/actions/workflows/rust.yml)
-[![Latest Tag](https://img.shields.io/github/v/tag/iahmadgad/termux-clock?label=Latest%20Tag&sort=semver)](#)
+[![Rust](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/publish.yml?label=Publish&logo=github)](https://github.com/iahmadgad/termux-clock/actions/workflows/publish.yml)
+[![Latest Tag](https://img.shields.io/github/v/tag/iahmadgad/termux-clock?label=Latest%20Tag&sort=semver)](https://github.com/iahmadgad/termux-clock/tags)
+[![Downloads](https://img.shields.io/github/downloads/iahmadgad/termux-clock/total?label=Downloads)](https://github.com/iahmadgad/termux-clock/releases)
+[![PRs: welcome](https://img.shields.io/badge/PRs-welcome-lemon)](https://github.com/iahmadgad/termux-clock/fork)
 
 Termux tool to set alarms & timers headlessly.
+
+# Requirements
+- [Termux](https://github.com/termux/termux-app) >= `0.118.1` _(this version solves issue termux/termux-app#3990)_
+- [Termux: API](https://github.com/termux/termux-api)
+- Termux packages: `termux-api`, `at`
+
+# Install
+> [!IMPORTANT]
+> both 2 methods install `termux-api` package not the Android app, which needs to be installed manually.
+> Read [Installation](https://github.com/termux/termux-api?tab=readme-ov-file#installation) on `termux/termux-api` repo to know how to install the Android app.
+## From source
+```sh
+# Install dependencies
+pkg install at termux-api
+# Compile via cargo
+cargo install --force --git https://github.com/iahmadgad/termux-clock
+```
+See [`cargo-install(1)`](https://doc.rust-lang.org/cargo/commands/cargo-install.html) for more `cargo install` options
+## Pre-built Termux packages
+- Navigate to [GitHub Releases](https://github.com/iahmadgad/termux-clock/releases), and choose package with your desired version & phone architecture.
+- copy deb file url & download it using `wget` or `curl`.
+- Install the downloaded package with `apt`:
+```sh
+apt install ./*.deb
+```
+# Usage
+## `timer`
+### `-l, --length <LENGTH>`
+timer length in seconds.
+### `-m, --message <MESSAGE>`
+timer message.
+### `-t, --termux`
+set timer in termux instead of android alarm clock.
+### Example
+```sh
+termux-clock timer -l 60 -m "Timer for 1 minute" -t
+```
+## `alarm`
+### `-H, --hour <HOUR>`
+alarm hour.
+### `-M, --minutes <MINUTES>`
+alarm extra minutes.
+### `-d, --days <DAYS>`
+> [!NOTE]
+> Not yet implemented in termux, so use it without `--termux` option.
+
+days to recurr the alarm, denoted by space-seperated numbers between double quotes, e. g. `"1 2 3"`, where each number corresponds to a weekday:
+
+| Weekday | Number |
+| ------- | ------ |
+| Sunday  | `1`    |
+| Monday  | `2`    |
+| Tuesday | `3`    |
+| Wednesday | `4`  |
+| Thursday | `5`   |
+| Friday  | `6`    |
+| Saturday | `7`    |
+### `-m, --message`
+alarm message.
+### `-v, --vibrate <VIBRATE>`
+enable vibration, possible values: [`true`, `false`].
+### `-t, --termux`
+set alarm in termux instead of android alarm clock.
+### Example
+```sh
+termux-clock alarm -H 6 -M 30 -m "Alarm at 06:30 🕡" -d "1 2 3" -v true
+```
