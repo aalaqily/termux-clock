@@ -16,23 +16,25 @@ jobs:
       matrix:
         target:
           - aarch64-linux-android       # 64-bit ARM
-          - armv7-linux-androideabi      # 32-bit ARM
           - i686-linux-android           # 32-bit x86
           - x86_64-linux-android         # 64-bit x86
           - arm-linux-androideabi        # 32-bit ARM (older ABI)
-          - thumbv7neon-linux-androideabi # 32-bit ARM with NEON
    
     name: Build Release - ${{ matrix.target }}
     
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
       - name: Set version variable
         run: |
-            if [ -n "${{ github.event.inputs.tag }}" ]; then
-              version="${{ github.event.inputs.tag }}"
-            else
-              version="${{ github.ref }}"
-            fi
-            echo "version=${version#v}" >> $GITHUB_ENV
+            version="${{ github.event.inputs.tag || github.ref }}"         
+            version=$(basename $version)
+            version=${version#v}
+            echo "VERSION=$version" >> "$GITHUB_ENV"
+            echo "$version"
 
       - name: Set arch variable
         run: |
@@ -56,6 +58,13 @@ jobs:
               esac
             }
             arch=$(arch_alias ${{ matrix.target }})
+            echo "ARCH=$arch" >> "$GITHUB_ENV"
+            echo "$arch" 
+
+      - name: Debug Environment Variables
+        run: |
+          echo "Version: $VERSION"
+          echo "Arch: $ARCH"
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -82,14 +91,18 @@ jobs:
         shell: bash
         run: cross build --target=${{ matrix.target }} --release
 
+      - name: Install termux-create-package
+        run: pip3 install git+https://github.com/termux/termux-create-package
+
       - name: Build Termux deb package
         shell: bash
-        run: ./build_deb -v ${{ version }} -a ${{ arch }}
+        run: ./build_deb.sh -v $VERSION -a ${{ matrix.target }}
 
       - name: Upload Termux deb package artifact
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}
-          path: ./deb/termux-clock_${{ version }}_${{ arch }}.deb
+          path: ./deb/termux-clock_${{ env.VERSION }}_${{ env.ARCH }}.deb
 
   publish:
     name: Publish to GitHub Releases
@@ -102,11 +115,9 @@ jobs:
       matrix:
         target:
           - aarch64-linux-android       # 64-bit ARM
-          - armv7-linux-androideabi      # 32-bit ARM
           - i686-linux-android           # 32-bit x86
           - x86_64-linux-android         # 64-bit x86
           - arm-linux-androideabi        # 32-bit ARM (older ABI)
-          - thumbv7neon-linux-androideabi # 32-bit ARM with NEON
 
     steps:
       - name: Checkout
@@ -124,4 +135,4 @@ jobs:
         with:
           generateReleaseNotes: true
           assets: |
-            - path: *.deb
+            - path: termux-clock*.deb
