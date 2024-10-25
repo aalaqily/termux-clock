@@ -35,4 +35,6 @@ arch_alias() {
     esac
 }
 
-termux-create-package --pkg-version $version pkg/`arch_alias $arch`.json
+
+echo "termux-create-package pkg/`arch_alias $arch`.json --pkg-version $version"
+termux-create-package pkg/`arch_alias $arch`.json --pkg-version $version
