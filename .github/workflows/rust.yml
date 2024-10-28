@@ -52,10 +52,10 @@ jobs:
             echo "cross already installed, skipping installation."
           fi
 
-      - name: Build - ${{ matrix.target }}
+      - name: Build
         shell: bash
-        run: cross build --target=${{ matrix.target }} --verbose
+        run: cross build --target ${{ matrix.target }} --verbose
      
-      - name: Test - ${{ matrix.target }}
+      - name: Test
         shell: bash
-        run: cross test --target=${{ matrix.target }} --verbose
+        run: cross test --target ${{ matrix.target }} --verbose
