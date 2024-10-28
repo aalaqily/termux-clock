@@ -11,6 +11,7 @@ on:
     paths-ignore:
       - "*.md"
       - "LICENSE"
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -37,8 +38,6 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
 
       - name: Cache Deps & Bins
         uses: Swatinem/rust-cache@v2

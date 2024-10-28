@@ -14,13 +14,13 @@ jobs:
 
     strategy:
       matrix:
-        target:
-          - aarch64-linux-android       # 64-bit ARM
-          - i686-linux-android           # 32-bit x86
-          - x86_64-linux-android         # 64-bit x86
-          - arm-linux-androideabi        # 32-bit ARM (older ABI)
+        job:
+          - { target: aarch64-linux-android, arch: aarch64 }       # 64-bit ARM
+          - { target: i686-linux-android, arch: i686 }         # 32-bit x86
+          - { target: x86_64-linux-android, arch: x86_64 }      # 64-bit x86
+          - { target: arm-linux-androideabi, arch: arm }        # 32-bit ARM (older ABI)
    
-    name: Build Release - ${{ matrix.target }}
+    name: Build Release - ${{ matrix.job.target }}
     
     steps:
       - name: Checkout Repository
@@ -30,41 +30,10 @@ jobs:
 
       - name: Set version variable
         run: |
-            version="${{ github.event.inputs.tag || github.ref }}"         
+            version="${{ github.event.inputs.tag || github.ref }}"   
             version=$(basename $version)
             version=${version#v}
-            echo "VERSION=$version" >> "$GITHUB_ENV"
-            echo "$version"
-
-      - name: Set arch variable
-        run: |
-            arch_alias() {
-              case $1 in
-              "aarch64-linux-android")
-              echo "aarch64"
-              ;;
-              "i686-linux-android")
-              echo "i686"
-              ;;
-              "x86_64-linux-android")
-              echo "x86_64"
-              ;;
-              "arm-linux-androideabi")
-              echo "arm"
-              ;;
-              *)
-              echo "Invalid architecture name"
-              ;;
-              esac
-            }
-            arch=$(arch_alias ${{ matrix.target }})
-            echo "ARCH=$arch" >> "$GITHUB_ENV"
-            echo "$arch" 
-
-      - name: Debug Environment Variables
-        run: |
-          echo "Version: $VERSION"
-          echo "Arch: $ARCH"
+            echo "version=$version" >> "$GITHUB_ENV"
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -72,7 +41,6 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
 
       - name: Cache Deps & Bins
         uses: Swatinem/rust-cache@v2
@@ -87,24 +55,24 @@ jobs:
             echo "cross already installed, skipping installation."
           fi
 
-      - name: Build - ${{ matrix.target }}
+      - name: Build - ${{ matrix.job.target }}
         shell: bash
-        run: cross build --target=${{ matrix.target }} --release
+        run: cross build --target ${{ matrix.job.target }} --release
 
       - name: Install termux-create-package
         run: pip3 install git+https://github.com/termux/termux-create-package
 
       - name: Build Termux deb package
         shell: bash
-        run: ./build_deb.sh -v $VERSION -a ${{ matrix.target }}
+        run: ./build/deb.sh -v $version -a ${{ matrix.job.arch }}
 
       - name: Upload Termux deb package artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.target }}
-          path: ./deb/termux-clock_${{ env.VERSION }}_${{ env.ARCH }}.deb
+          name: ${{ matrix.job.target }}
+          path: ./deb/termux-clock_${version}_${{ matrix.job.arch }}.deb
 
-  publish:
+  github_releases:
     name: Publish to GitHub Releases
     runs-on: ubuntu-latest
     needs: build
