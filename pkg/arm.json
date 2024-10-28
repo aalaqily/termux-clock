@@ -1,16 +1,16 @@
 {
-    "control": {
-      "Package": "termux-clock",
-      "Maintainer": "Ahmad Asaad <ahmadasaadh@gmail.com>",
-      "Architecture": "arm",
-      "Depends": "at, termux-api",
-      "Description": "Termux tool to set alarms & timers headlessly"
-    },
-    "installation_prefix": "/data/data/com.termux/files/usr",
-    "data_files": {
-        "bin/termux-clock": {
-                  "source": "target/arm-linux-androideabi/release/termux-clock"
-        }
-    },
-    "deb_dir": "deb/"
+  "control": {
+    "Package": "termux-clock",
+    "Maintainer": "Ahmad Asaad <ahmadasaadh@gmail.com>",
+    "Architecture": "arm",
+    "Depends": "at, termux-api",
+    "Description": "Termux tool to set alarms & timers headlessly"
+  },
+  "installation_prefix": "/data/data/com.termux/files/usr",
+  "data_files": {
+      "bin/termux-clock": {
+                "source": "target/arm-linux-androideabi/release/termux-clock"
+      }
+  },
+  "deb_dir": "deb"
 }
