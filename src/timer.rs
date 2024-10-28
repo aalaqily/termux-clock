@@ -39,3 +39,51 @@ impl Timer {
 	self
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new() {
+	let left = Timer {
+	    length: 0,
+	    message: None,
+	    vibrate: false,
+	};
+
+	let right = Timer::new();
+
+	assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_hour() {
+	let alarm = Timer::new().hour(6);
+	assert_eq!(alarm.length, 21_600);
+    }
+
+    #[test]
+    fn test_minutes() {
+	let alarm = Timer::new().minutes(30);
+	assert_eq!(alarm.length, 1_800);
+    }
+
+    #[test]
+    fn test_seconds() {
+	let alarm = Timer::new().seconds(600);
+	assert_eq!(alarm.length, 600);
+    }
+
+    #[test]
+    fn test_message() {
+	let alarm = Timer::new().message(String::from("Wake Up!"));
+	assert_eq!(alarm.message, Some(String::from("Wake Up!")));
+    }
+
+    #[test]
+    fn test_vibrate() {
+	let alarm = Timer::new().vibrate(true);
+	assert_eq!(alarm.vibrate, true);
+    }
+}
