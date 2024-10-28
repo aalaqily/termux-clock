@@ -39,4 +39,4 @@ while getopts ":v:a:t:" option; do
 done
 
 echo "termux-create-package pkg/$arch.json --pkg-version $version"
-#termux-create-package pkg/$arch.json --pkg-version $version
+termux-create-package pkg/$arch.json --pkg-version $version
