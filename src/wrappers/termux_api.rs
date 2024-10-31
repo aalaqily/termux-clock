@@ -1,4 +1,4 @@
-fn termux_notification(title: Option<String>, content: Option<String>) -> String {
+pub fn termux_notification(title: Option<String>, content: Option<String>) -> String {
     let mut command = vec![String::from("termux-notification")];
 
     if let Some(title) = title {
