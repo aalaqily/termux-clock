@@ -6,7 +6,8 @@ on:
         description: The tag to publish
         required: true
   push:
-    tags: [ 'v*.*.*' ]
+    tags:
+      - v*
 
 jobs:
   build:
@@ -15,10 +16,10 @@ jobs:
     strategy:
       matrix:
         job:
-          - { target: aarch64-linux-android, arch: aarch64 }       # 64-bit ARM
-          - { target: i686-linux-android, arch: i686 }         # 32-bit x86
-          - { target: x86_64-linux-android, arch: x86_64 }      # 64-bit x86
-          - { target: arm-linux-androideabi, arch: arm }        # 32-bit ARM (older ABI)
+          - { target: aarch64-linux-android , arch: aarch64 }       # 64-bit ARM
+          - { target: i686-linux-android    , arch: i686 }         # 32-bit x86
+          - { target: x86_64-linux-android  , arch: x86_64 }      # 64-bit x86
+          - { target: arm-linux-androideabi , arch: arm }        # 32-bit ARM (older ABI)
    
     name: Build Release - ${{ matrix.job.target }}
     
@@ -40,7 +41,6 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-        with:
 
       - name: Cache Deps & Bins
         uses: Swatinem/rust-cache@v2
@@ -55,7 +55,7 @@ jobs:
             echo "cross already installed, skipping installation."
           fi
 
-      - name: Build - ${{ matrix.job.target }}
+      - name: Build
         shell: bash
         run: cross build --target ${{ matrix.job.target }} --release
 
@@ -73,7 +73,7 @@ jobs:
           path: ./deb/termux-clock_${version}_${{ matrix.job.arch }}.deb
 
   github_releases:
-    name: GitHub Releases
+    name: Publish to GitHub Releases
     runs-on: ubuntu-latest
     needs: build
     permissions:
