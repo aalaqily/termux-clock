@@ -11,3 +11,29 @@ fn termux_notification(title: Option<String>, content: Option<String>) -> String
     
     command.join(" ")
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_termux_notification() {
+	let left = String::from("termux-notification --title \"Termux Clock\" --content \"Wake up!\"");
+	let right = termux_notification(Some(String::from("Termux Clock")), Some(String::from("Wake up!")));
+	assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_termux_notification_with_title() {
+	let left = String::from("termux-notification --title \"Termux Clock\"");
+	let right = termux_notification(Some(String::from("Termux Clock")), None);
+	assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_termux_notification_with_content() {
+	let left = String::from("termux-notification --content \"Wake up!\"");
+	let right = termux_notification(None, Some(String::from("Wake up!")));
+	assert_eq!(left, right);
+    }
+}
