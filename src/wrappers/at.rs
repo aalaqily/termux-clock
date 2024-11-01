@@ -18,5 +18,52 @@ pub fn schedule_alarm_command(alarm: Alarm) -> Command {
     command
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::ffi::OsStr;
 
+    #[test]
+    fn test_schedule_string_command() {
+        let left = r#"echo "ls ~" | at 6:30"#;
+        
+        let command = schedule_string_command(String::from("ls ~"), 6, 30);
 
+        let right = command.get_args().collect::<Vec<&OsStr>>()[1];
+
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_schedule_alarm_command() {
+        let left = r#"echo "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate" | at 6:30"#;
+        
+        let command = schedule_alarm_command(Alarm::new().hour(6).minutes(30).message(String::from("Wake up!")).vibrate(true));
+
+        let right = command.get_args().collect::<Vec<&OsStr>>()[1];
+
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_schedule_alarm_command_minutes_none() {
+        let left = r#"echo "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate" | at 6:0"#;
+        
+        let command = schedule_alarm_command(Alarm::new().hour(6).message(String::from("Wake up!")).vibrate(true));
+
+        let right = command.get_args().collect::<Vec<&OsStr>>()[1];
+
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_schedule_alarm_command_hour_none_minutes_none() {
+        let left = r#"echo "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate" | at 0:0"#;
+        
+        let command = schedule_alarm_command(Alarm::new().message(String::from("Wake up!")).vibrate(true));
+
+        let right = command.get_args().collect::<Vec<&OsStr>>()[1];
+
+        assert_eq!(left, right);
+    }
+}
