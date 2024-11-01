@@ -13,15 +13,19 @@ fn set_timer(timer: Timer) -> Command {
     ];
 
     if let Some(l) = timer.length {
-        args.push("--ei".to_string());
-        args.push("android.intent.extra.alarm.LENGTH".to_string());
-        args.push(l.to_string());
+        args.extend(vec![
+            "--ei".to_string(),
+            "android.intent.extra.alarm.LENGTH".to_string(),
+            l.to_string(),
+        ]);
     };
 
     if let Some(m) = timer.message {
-        args.push("--es".to_string());
-        args.push("android.intent.extra.alarm.MESSAGE".to_string());
-        args.push(m);
+        args.extend(vec![
+            "--es".to_string(),
+            "android.intent.extra.alarm.MESSAGE".to_string(),
+            m,
+        ])
     };
 
     let mut command = Command::new("am");
@@ -51,26 +55,30 @@ fn set_alarm(alarm: Alarm) -> Command {
     }
 
     if let Some(d) = alarm.days {
-        args.push("--eial".to_string());
-        args.push("android.intent.extra.alarm.DAYS".to_string());
-        args.push(
+        args.extend(vec![
+            "--eial".to_string(),
+            "android.intent.extra.alarm.DAYS".to_string(),
             d.iter()
                 .map(|n| n.to_string())
                 .collect::<Vec<String>>()
                 .join(","),
-        );
+        ])
     };
 
     if let Some(m) = alarm.message {
-        args.push("--es".to_string());
-        args.push("android.intent.extra.alarm.MESSAGE".to_string());
-        args.push(m);
+        args.extend(vec![
+            "--es".to_string(),
+            "android.intent.extra.alarm.MESSAGE".to_string(),
+            m,
+        ])
     };
 
     if !alarm.vibrate {
-        args.push("--ez".to_string());
-        args.push("android.intent.extra.alarm.VIBRATE".to_string());
-        args.push(false.to_string());
+        args.extend(vec![
+            "--ez".to_string(),
+            "android.intent.extra.alarm.VIBRATE".to_string(),
+            false.to_string(),
+        ])
     };
 
     let mut command = Command::new("am");
