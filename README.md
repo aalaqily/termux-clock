@@ -3,7 +3,7 @@
 [![Rust](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/rust.yml?label=Rust&logo=rust)](https://github.com/iahmadgad/termux-clock/actions/workflows/rust.yml)
 [![Rust](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/publish.yml?label=Publish&logo=github)](https://github.com/iahmadgad/termux-clock/actions/workflows/publish.yml)
 [![Lines of code](https://tokei.rs/b1/github/iahmadgad/termux-clock?category=code&label=Lines%20of%20code&style=flat)](#)
-[![Latest Tag](https://img.shields.io/github/v/tag/iahmadgad/termux-clock?label=Latest%20Tag&sort=semver)](https://github.com/iahmadgad/termux-clock/tags)
+[![Latest Tag](https://img.shields.io/github/v/tag/iahmadgad/termux-clock?label=Latest%20tag&sort=semver)](https://github.com/iahmadgad/termux-clock/tags)
 [![Downloads](https://img.shields.io/github/downloads/iahmadgad/termux-clock/total?label=Downloads%20(GH))](https://github.com/iahmadgad/termux-clock/releases)
 [![PRs: welcome](https://img.shields.io/badge/PRs-welcome-lemon)](https://github.com/iahmadgad/termux-clock/fork)
 
