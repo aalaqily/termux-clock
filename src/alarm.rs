@@ -1,4 +1,4 @@
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Alarm {
     pub hour: Option<u8>,
     pub minutes: Option<u8>,
