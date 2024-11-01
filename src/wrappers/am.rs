@@ -77,3 +77,18 @@ fn set_alarm(alarm: Alarm) -> Command {
     command.args(args);
     command
 }
+
+#[cfg(test)]
+mod tests {
+    use std::ffi::OsStr;
+    use super::*;
+
+    #[test]
+    fn test_set_timer() {
+	let left_args: Vec<&OsStr> = ["start", "-a", "android.intent.action.SET_TIMER", "--ez", "android.intent.extra.alarm.SKIP_UI", "true", "--ei", "android.intent.extra.alarm.LENGTH", "60", "--es", "android.intent.extra.alarm.MESSAGE", "Wake up!"].iter().map(|s| OsStr::new(s)).collect();
+	let command = set_timer(Timer::new().seconds(60).message(String::from("Wake up!")));
+	
+	assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+	//assert_eq!();
+    }
+}
