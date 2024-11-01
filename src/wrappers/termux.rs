@@ -7,7 +7,7 @@ pub fn set_timer_command(timer: Timer) -> Command {
     if let Some(l) = timer.length {
         args.push(format!("sleep {} &", l));
     };
-    
+
     match timer.message {
         Some(m) => {
             &args[1].push_str(
@@ -62,7 +62,12 @@ mod tests {
         .map(|s| OsStr::new(s))
         .collect();
 
-        let command = set_timer_command(Timer::new().seconds(60).message(String::from("Wake up!")).vibrate(true));
+        let command = set_timer_command(
+            Timer::new()
+                .seconds(60)
+                .message(String::from("Wake up!"))
+                .vibrate(true),
+        );
 
         let right_args = command.get_args().collect::<Vec<&OsStr>>();
 
@@ -105,7 +110,9 @@ mod tests {
 
     #[test]
     fn test_set_alarm_string() {
-        let left = String::from("termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate");
+        let left = String::from(
+            "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate",
+        );
 
         let right = set_alarm_string(Alarm::new().message(String::from("Wake up!")).vibrate(true));
 

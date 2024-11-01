@@ -45,7 +45,6 @@ pub fn schedule_string_command(
     command
 }
 pub fn schedule_alarm_command(alarm: Alarm) -> Command {
-
     let hour = match alarm.hour {
         Some(h) => CronField::Vector(vec![h]),
         None => CronField::All,
@@ -53,7 +52,7 @@ pub fn schedule_alarm_command(alarm: Alarm) -> Command {
 
     let minute = match alarm.minutes {
         Some(m) => CronField::Vector(vec![m]),
-        None => CronField::All, 
+        None => CronField::All,
     };
 
     let week_day = match alarm.days.clone() {
