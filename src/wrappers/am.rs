@@ -1,6 +1,6 @@
-use std::process::Command;
 use crate::alarm::Alarm;
 use crate::timer::Timer;
+use std::process::Command;
 
 fn set_timer(timer: Timer) -> Command {
     let mut args: Vec<String> = vec![
@@ -25,7 +25,7 @@ fn set_timer(timer: Timer) -> Command {
     };
 
     let mut command = Command::new("am");
-	command.args(args);
+    command.args(args);
     command
 }
 
@@ -74,6 +74,6 @@ fn set_alarm(alarm: Alarm) -> Command {
     };
 
     let mut command = Command::new("am");
-	command.args(args);
+    command.args(args);
     command
 }
