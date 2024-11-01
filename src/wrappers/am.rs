@@ -110,9 +110,12 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
+
         let command = set_timer_command(Timer::new().seconds(60).message(String::from("Wake up!")));
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
@@ -143,6 +146,7 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
+
         let command = set_alarm_command(
             Alarm::new()
                 .hour(6)
@@ -152,7 +156,9 @@ mod tests {
                 .vibrate(false),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
@@ -183,6 +189,7 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
+
         let command = set_alarm_command(
             Alarm::new()
                 .hour(6)
@@ -191,7 +198,9 @@ mod tests {
                 .vibrate(false),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
@@ -216,6 +225,7 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
+
         let command = set_alarm_command(
             Alarm::new()
                 .days(vec![1, 2, 5])
@@ -223,7 +233,9 @@ mod tests {
                 .vibrate(false),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
@@ -251,6 +263,7 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
+
         let command = set_alarm_command(
             Alarm::new()
                 .hour(6)
@@ -260,6 +273,8 @@ mod tests {
                 .vibrate(true),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 }
