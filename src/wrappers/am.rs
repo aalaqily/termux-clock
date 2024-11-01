@@ -114,4 +114,152 @@ mod tests {
 
         assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
     }
+
+    #[test]
+    fn test_set_alarm() {
+        let left_args: Vec<&OsStr> = [
+            "start",
+            "-a",
+            "android.intent.action.SET_ALARM",
+            "--ez",
+            "android.intent.extra.alarm.SKIP_UI",
+            "true",
+            "--ei",
+            "android.intent.extra.alarm.HOUR",
+            "6",
+            "--ei",
+            "android.intent.extra.alarm.MINUTES",
+            "30",
+            "--eial",
+            "android.intent.extra.alarm.DAYS",
+            "1,2,5",
+            "--es",
+            "android.intent.extra.alarm.MESSAGE",
+            "Wake up!",
+            "--ez",
+            "android.intent.extra.alarm.VIBRATE",
+            "false",
+        ]
+        .iter()
+        .map(|s| OsStr::new(s))
+        .collect();
+        let command = set_alarm(
+            Alarm::new()
+                .hour(6)
+                .minutes(30)
+                .days(vec![1, 2, 5])
+                .message(String::from("Wake up!"))
+                .vibrate(false),
+        );
+
+        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+    }
+
+    #[test]
+    fn test_set_alarm_with_minutes_none() {
+        let left_args: Vec<&OsStr> = [
+            "start",
+            "-a",
+            "android.intent.action.SET_ALARM",
+            "--ez",
+            "android.intent.extra.alarm.SKIP_UI",
+            "true",
+            "--ei",
+            "android.intent.extra.alarm.HOUR",
+            "6",
+            "--ei",
+            "android.intent.extra.alarm.MINUTES",
+            "0",
+            "--eial",
+            "android.intent.extra.alarm.DAYS",
+            "1,2,5",
+            "--es",
+            "android.intent.extra.alarm.MESSAGE",
+            "Wake up!",
+            "--ez",
+            "android.intent.extra.alarm.VIBRATE",
+            "false",
+        ]
+        .iter()
+        .map(|s| OsStr::new(s))
+        .collect();
+        let command = set_alarm(
+            Alarm::new()
+                .hour(6)
+                .days(vec![1, 2, 5])
+                .message(String::from("Wake up!"))
+                .vibrate(false),
+        );
+
+        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+    }
+
+    #[test]
+    fn test_set_alarm_with_hour_none_minutes_none() {
+        let left_args: Vec<&OsStr> = [
+            "start",
+            "-a",
+            "android.intent.action.SET_ALARM",
+            "--ez",
+            "android.intent.extra.alarm.SKIP_UI",
+            "true",
+            "--eial",
+            "android.intent.extra.alarm.DAYS",
+            "1,2,5",
+            "--es",
+            "android.intent.extra.alarm.MESSAGE",
+            "Wake up!",
+            "--ez",
+            "android.intent.extra.alarm.VIBRATE",
+            "false",
+        ]
+        .iter()
+        .map(|s| OsStr::new(s))
+        .collect();
+        let command = set_alarm(
+            Alarm::new()
+                .days(vec![1, 2, 5])
+                .message(String::from("Wake up!"))
+                .vibrate(false),
+        );
+
+        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+    }
+
+    #[test]
+    fn test_set_alarm_with_vibrate_true() {
+        let left_args: Vec<&OsStr> = [
+            "start",
+            "-a",
+            "android.intent.action.SET_ALARM",
+            "--ez",
+            "android.intent.extra.alarm.SKIP_UI",
+            "true",
+            "--ei",
+            "android.intent.extra.alarm.HOUR",
+            "6",
+            "--ei",
+            "android.intent.extra.alarm.MINUTES",
+            "30",
+            "--eial",
+            "android.intent.extra.alarm.DAYS",
+            "1,2,5",
+            "--es",
+            "android.intent.extra.alarm.MESSAGE",
+            "Wake up!",
+        ]
+        .iter()
+        .map(|s| OsStr::new(s))
+        .collect();
+        let command = set_alarm(
+            Alarm::new()
+                .hour(6)
+                .minutes(30)
+                .days(vec![1, 2, 5])
+                .message(String::from("Wake up!"))
+                .vibrate(true),
+        );
+
+        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+    }
 }
