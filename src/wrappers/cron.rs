@@ -74,3 +74,67 @@ pub fn schedule_alarm_command(alarm: Alarm) -> Command {
         .arg(format!("(crontab -l; echo '{}') | crontab -", cron_entry));
     command
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::ffi::OsStr;
+    use CronField;
+
+    #[test]
+    fn test_to_cron_string_value() {
+        let left = String::from("40");
+        let cron_field = CronField::Vector(vec![40]);
+        let right = cron_field.to_cron_string();
+
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_to_cron_string_values() {
+        let left = String::from("1,2,3");
+        let cron_field = CronField::Vector(vec![1, 2, 3]);
+        let right = cron_field.to_cron_string();
+
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_to_cron_string_all() {
+        let left = String::from("*");
+        let cron_field = CronField::All;
+        let right = cron_field.to_cron_string();
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_schedule_string_command() {
+        let left = "(crontab -l; echo '40 13 * 1,2,3 * ls ~') | crontab -";
+        let command = schedule_string_command(
+            CronField::Vector(vec![40]),
+            CronField::Vector(vec![13]),
+            CronField::All,
+            CronField::Vector(vec![1, 2, 3]),
+            CronField::All,
+            String::from("ls ~"),
+        );
+        let right = command.get_args().collect::<Vec<&OsStr>>()[1];
+
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn test_schedule_alarm_command() {
+        let left = "(crontab -l; echo '40 13 * * 1,2,3 termux-notification --title 'Termux Alarm' && termux-vibrate') | crontab -";
+        let command = schedule_alarm_command(
+            Alarm::new()
+                .hour(13)
+                .minutes(40)
+                .days(vec![1, 2, 3])
+                .vibrate(true),
+        );
+        let right = command.get_args().collect::<Vec<&OsStr>>()[1];
+
+        assert_eq!(left, right);
+    }
+}
