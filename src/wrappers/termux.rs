@@ -24,6 +24,10 @@ fn set_timer_command(timer: Timer) -> Command {
         }
     };
 
+    if timer.vibrate {
+        &args[1].push_str("& termux-vibrate &");
+    };
+
     let mut command = Command::new("sh");
     command.args(args);
     command
