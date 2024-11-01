@@ -2,7 +2,7 @@ use crate::alarm::Alarm;
 use crate::timer::Timer;
 use std::process::Command;
 
-fn set_timer(timer: Timer) -> Command {
+fn set_timer_command(timer: Timer) -> Command {
     let mut args: Vec<String> = vec![
         "start".to_string(),
         "-a".to_string(),
@@ -33,7 +33,7 @@ fn set_timer(timer: Timer) -> Command {
     command
 }
 
-fn set_alarm(alarm: Alarm) -> Command {
+fn set_alarm_command(alarm: Alarm) -> Command {
     let mut args: Vec<String> = vec![
         "start".to_string(),
         "-a".to_string(),
@@ -92,7 +92,7 @@ mod tests {
     use std::ffi::OsStr;
 
     #[test]
-    fn test_set_timer() {
+    fn test_set_timer_command() {
         let left_args: Vec<&OsStr> = [
             "start",
             "-a",
@@ -110,13 +110,16 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
-        let command = set_timer(Timer::new().seconds(60).message(String::from("Wake up!")));
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let command = set_timer_command(Timer::new().seconds(60).message(String::from("Wake up!")));
+
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
-    fn test_set_alarm() {
+    fn test_set_alarm_command() {
         let left_args: Vec<&OsStr> = [
             "start",
             "-a",
@@ -143,7 +146,8 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
-        let command = set_alarm(
+
+        let command = set_alarm_command(
             Alarm::new()
                 .hour(6)
                 .minutes(30)
@@ -152,11 +156,13 @@ mod tests {
                 .vibrate(false),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
-    fn test_set_alarm_with_minutes_none() {
+    fn test_set_alarm_command_minutes_none() {
         let left_args: Vec<&OsStr> = [
             "start",
             "-a",
@@ -183,7 +189,8 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
-        let command = set_alarm(
+
+        let command = set_alarm_command(
             Alarm::new()
                 .hour(6)
                 .days(vec![1, 2, 5])
@@ -191,11 +198,13 @@ mod tests {
                 .vibrate(false),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
-    fn test_set_alarm_with_hour_none_minutes_none() {
+    fn test_set_alarm_command_hour_none_minutes_none() {
         let left_args: Vec<&OsStr> = [
             "start",
             "-a",
@@ -216,18 +225,21 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
-        let command = set_alarm(
+
+        let command = set_alarm_command(
             Alarm::new()
                 .days(vec![1, 2, 5])
                 .message(String::from("Wake up!"))
                 .vibrate(false),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 
     #[test]
-    fn test_set_alarm_with_vibrate_true() {
+    fn test_set_alarm_command_vibrate_true() {
         let left_args: Vec<&OsStr> = [
             "start",
             "-a",
@@ -251,7 +263,8 @@ mod tests {
         .iter()
         .map(|s| OsStr::new(s))
         .collect();
-        let command = set_alarm(
+
+        let command = set_alarm_command(
             Alarm::new()
                 .hour(6)
                 .minutes(30)
@@ -260,6 +273,8 @@ mod tests {
                 .vibrate(true),
         );
 
-        assert_eq!(left_args, command.get_args().collect::<Vec<&OsStr>>());
+        let right_args = command.get_args().collect::<Vec<&OsStr>>();
+
+        assert_eq!(left_args, right_args);
     }
 }
