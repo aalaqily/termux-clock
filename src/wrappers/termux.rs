@@ -7,11 +7,12 @@ fn set_timer_command(timer: Timer) -> Command {
     if let Some(l) = timer.length {
         args.push(format!("sleep {} &", l));
     };
+    
     match timer.message {
         Some(m) => {
             &args[1].push_str(
                 format!(
-                    "& termux-notification --title \"Termux Timer ({}s)\" --content \"{}\" &",
+                    r#"& termux-notification --title "Termux Timer ({}s)" --content "{}" &"#,
                     timer.length.unwrap(),
                     m
                 )
@@ -19,7 +20,7 @@ fn set_timer_command(timer: Timer) -> Command {
             );
         }
         None => {
-            &args[1].push_str(format!("& termux-notification --title \"Termux Timer ({}s)\" --content \"Timer finished\" &", timer.length.unwrap()).as_str());
+            &args[1].push_str(format!(r#"& termux-notification --title "Termux Timer ({}s)" --content "Timer finished" &"#, timer.length.unwrap()).as_str());
         }
     };
 
@@ -29,7 +30,7 @@ fn set_timer_command(timer: Timer) -> Command {
 }
 
 fn set_alarm_string(alarm: Alarm) -> String {
-    let mut string = String::from(r#"echo "termux-notification --title 'Termux Alarm' "#);
+    let mut string = String::from("termux-notification --title 'Termux Alarm' ");
 
     if let Some(m) = alarm.message {
         string.push_str(format!("--content '{}' ", m).as_str())
