@@ -1,10 +1,10 @@
+mod android;
 mod frontend;
 mod termux;
-mod android;
 
-use termux::*;
 use android::*;
 use frontend::*;
+use termux::*;
 
 use clap::{Parser, Subcommand};
 
@@ -43,31 +43,40 @@ enum Commands {
 
         #[arg(short, long)]
         vibrate: Option<bool>,
-        
+
         #[arg(short, long)]
         termux: bool,
-    }
+    },
 }
 
 fn main() {
     let args = Args::parse();
     match args.cmd {
-        Commands::Timer{length, message, termux} => {
+        Commands::Timer {
+            length,
+            message,
+            termux,
+        } => {
             if termux {
                 Termux::set_timer(length, message)
-            }
-            else {
+            } else {
                 Android::set_timer(length, message)
             }
         }
-        Commands::Alarm{hour, minutes, days, message, vibrate, termux} => {
+        Commands::Alarm {
+            hour,
+            minutes,
+            days,
+            message,
+            vibrate,
+            termux,
+        } => {
             if termux {
                 Termux::set_alarm(hour, minutes, days, message, vibrate)
-            }
-            else {
+            } else {
                 Android::set_alarm(hour, minutes, days, message, vibrate)
             }
         }
-        _ => ()
+        _ => (),
     }
 }
