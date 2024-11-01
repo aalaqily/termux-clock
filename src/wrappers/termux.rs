@@ -2,7 +2,7 @@ use crate::alarm::Alarm;
 use crate::timer::Timer;
 use std::process::Command;
 
-fn set_timer_command(timer: Timer) -> Command {
+pub fn set_timer_command(timer: Timer) -> Command {
     let mut args: Vec<String> = vec!["-c".to_string()];
     if let Some(l) = timer.length {
         args.push(format!("sleep {} &", l));
@@ -33,7 +33,7 @@ fn set_timer_command(timer: Timer) -> Command {
     command
 }
 
-fn set_alarm_string(alarm: Alarm) -> String {
+pub fn set_alarm_string(alarm: Alarm) -> String {
     let mut string = String::from("termux-notification --title 'Termux Alarm' ");
 
     if let Some(m) = alarm.message {
