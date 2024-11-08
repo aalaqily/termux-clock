@@ -109,7 +109,7 @@ mod tests {
 
     #[test]
     fn test_schedule_string_command() {
-        let left = "(crontab -l; echo '40 13 * 1,2,3 * ls ~') | crontab -";
+        let left = r#"(crontab -l; echo "40 13 * 1,2,3 * ls ~") | crontab -"#;
         let command = schedule_string_command(
             CronField::Vector(vec![40]),
             CronField::Vector(vec![13]),
@@ -125,7 +125,7 @@ mod tests {
 
     #[test]
     fn test_schedule_alarm_command() {
-        let left = "(crontab -l; echo '40 13 * * 1,2,3 termux-notification --title 'Termux Alarm' && termux-vibrate') | crontab -";
+        let left = r#"(crontab -l; echo "40 13 * * 1,2,3 termux-notification --title 'Termux Alarm' && termux-vibrate") | crontab -"#;
         let command = schedule_alarm_command(
             Alarm::new()
                 .hour(13)
