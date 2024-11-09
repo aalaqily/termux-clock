@@ -105,6 +105,7 @@ mod tests {
             days: None,
             message: None,
             vibrate: false,
+	    termux: false,
         };
 
         let right = Alarm::new();
@@ -140,5 +141,11 @@ mod tests {
     fn test_vibrate() {
         let alarm = Alarm::new().vibrate(true);
         assert_eq!(alarm.vibrate, true);
+    }
+
+    #[test]
+    fn test_termux() {
+	let alarm = Alarm::new().termux(true);
+	assert_eq!(alarm.termux, true);
     }
 }
