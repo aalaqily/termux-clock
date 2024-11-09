@@ -1,3 +1,11 @@
+use std::ffi::OsStr;
+
+use crate::wrappers::{
+    cron,
+    at,
+    am,
+};
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct Alarm {
     pub hour: Option<u8>,
@@ -5,6 +13,7 @@ pub struct Alarm {
     pub days: Option<Vec<u8>>,
     pub message: Option<String>,
     pub vibrate: bool,
+    pub termux: bool,
 }
 
 impl Alarm {
@@ -15,6 +24,7 @@ impl Alarm {
             days: None,
             message: None,
             vibrate: false,
+	    termux: false
         }
     }
 
@@ -41,6 +51,45 @@ impl Alarm {
     pub fn vibrate(mut self, vibrate: bool) -> Self {
         self.vibrate = vibrate;
         self
+    }
+
+    pub fn termux(mut self, termux: bool) -> Self {
+	self.termux = termux;
+	self
+    }
+
+    pub fn set(self) {
+	let mut command = if self.termux {
+	    match self.days {
+		Some(_) => cron::schedule_alarm_command(self),
+		None => at::schedule_alarm_command(self),
+	    }
+	}
+	else {
+	    am::set_alarm_command(self)
+	};
+
+	#[cfg(debug_assertions)]
+	{
+	    let args = command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
+	    dbg!(&args);
+	    let args_str = &args.join(" ");
+	    dbg!(args_str);
+	}
+
+	let output = command
+	    .output()
+	    .expect("Unable to set alarm");
+
+	#[cfg(debug_assertions)]
+	{
+	    let status = output.status;
+            let stdout = String::from_utf8(output.stdout).unwrap();
+            let stderr = String::from_utf8(output.stderr).unwrap();
+            dbg!(status);
+            dbg!(stdout);
+            dbg!(stderr);
+	}
     }
 }
 
