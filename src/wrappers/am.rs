@@ -2,7 +2,7 @@ use crate::alarm::Alarm;
 use crate::timer::Timer;
 use std::process::Command;
 
-fn set_timer_command(timer: Timer) -> Command {
+pub fn set_timer_command(timer: Timer) -> Command {
     let mut args: Vec<String> = vec![
         "start".to_string(),
         "-a".to_string(),
@@ -33,7 +33,7 @@ fn set_timer_command(timer: Timer) -> Command {
     command
 }
 
-fn set_alarm_command(alarm: Alarm) -> Command {
+pub fn set_alarm_command(alarm: Alarm) -> Command {
     let mut args: Vec<String> = vec![
         "start".to_string(),
         "-a".to_string(),
