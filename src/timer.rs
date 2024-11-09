@@ -21,7 +21,7 @@ impl Timer {
         }
     }
 
-    pub fn hour(mut self, hour: u32) -> Self {
+    pub fn hours(mut self, hour: u32) -> Self {
         self.length = Some(self.length.map_or(hour * 3600, |l| l + hour * 3600));
         self
     }
