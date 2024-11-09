@@ -93,6 +93,7 @@ mod tests {
             length: None,
             message: None,
             vibrate: false,
+	    termux: false,
         };
 
         let right = Timer::new();
@@ -101,8 +102,8 @@ mod tests {
     }
 
     #[test]
-    fn test_hour() {
-        let alarm = Timer::new().hour(6);
+    fn test_hours() {
+        let alarm = Timer::new().hours(6);
         assert_eq!(alarm.length, Some(21_600));
     }
 
@@ -118,6 +119,26 @@ mod tests {
         assert_eq!(alarm.length, Some(600));
     }
 
+    fn test_hours_minutes() {
+	let alarm = Timer::new().hours(2).minutes(30);
+	assert_eq!(alarm.length, Some(9_000));
+    }
+
+    fn test_hours_seconds() {
+	let alarm = Timer::new().hours(2).seconds(50);
+	assert_eq!(alarm.length, Some(7_250));
+    }
+
+    fn test_minutes_seconds() {
+	let alarm = Timer::new().minutes(30).seconds(15);
+	assert_eq!(alarm.length, Some(1_815));
+    }
+
+    fn test_hours_minutes_seconds() {
+	let alarm = Timer::new().hours(2).minutes(30).seconds(10);
+	assert_eq!(alarm.length, Some(9_010));
+    }
+
     #[test]
     fn test_message() {
         let alarm = Timer::new().message(String::from("Wake Up!"));
@@ -127,6 +148,12 @@ mod tests {
     #[test]
     fn test_vibrate() {
         let alarm = Timer::new().vibrate(true);
-        assert_eq!(alarm.vibrate, true);
+        assert!(alarm.vibrate);
+    }
+
+    #[test]
+    fn test_termux() {
+	let alarm = Timer::new().termux(true);
+	assert!(alarm.termux);
     }
 }
