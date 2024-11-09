@@ -1,8 +1,14 @@
+use crate::wrappers::{
+    am,
+    termux,
+};
+
 #[derive(Debug, PartialEq)]
 pub struct Timer {
     pub length: Option<u32>,
     pub message: Option<String>,
     pub vibrate: bool,
+    pub termux: bool,
 }
 
 impl Timer {
@@ -11,6 +17,7 @@ impl Timer {
             length: None,
             message: None,
             vibrate: false,
+	    termux: false,
         }
     }
 
@@ -37,6 +44,42 @@ impl Timer {
     pub fn vibrate(mut self, vibrate: bool) -> Self {
         self.vibrate = vibrate;
         self
+    }
+
+    pub fn termux(mut self, termux: bool) -> Self {
+	self.termux = termux;
+	self
+    }
+
+    pub fn set(self) {
+	let mut command = if self.termux {
+	    termux::set_timer_command(self)
+	}
+	else {
+	    am::set_timer_command(self)
+	};
+
+	#[cfg(debug_assertions)]
+        {
+            let args = command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
+            dbg!(&args);
+            let args_str = &args.join(" ");
+            dbg!(args_str);
+        }
+
+        let output = command
+            .output()
+            .expect("Unable to set timer");
+
+        #[cfg(debug_assertions)]
+        {
+            let status = output.status;
+            let stdout = String::from_utf8(output.stdout).unwrap();
+            let stderr = String::from_utf8(output.stderr).unwrap();
+            dbg!(status);
+            dbg!(stdout);
+            dbg!(stderr);
+        }
     }
 }
 
