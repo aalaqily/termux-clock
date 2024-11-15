@@ -38,7 +38,7 @@ enum Commands {
         #[arg(short = 'M', long)]
         minutes: Option<u8>,
 
-        #[arg(short, long, value_delimiter = ' ')]
+        #[arg(short, long, value_delimiter = ',')]
         days: Option<Vec<u8>>,
 
         #[arg(short, long)]
