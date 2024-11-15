@@ -119,21 +119,25 @@ mod tests {
         assert_eq!(alarm.length, Some(600));
     }
 
+    #[test]
     fn test_hours_minutes() {
 	let alarm = Timer::new().hours(2).minutes(30);
 	assert_eq!(alarm.length, Some(9_000));
     }
 
+    #[test]
     fn test_hours_seconds() {
 	let alarm = Timer::new().hours(2).seconds(50);
 	assert_eq!(alarm.length, Some(7_250));
     }
 
+    #[test]
     fn test_minutes_seconds() {
 	let alarm = Timer::new().minutes(30).seconds(15);
 	assert_eq!(alarm.length, Some(1_815));
     }
 
+    #[test]
     fn test_hours_minutes_seconds() {
 	let alarm = Timer::new().hours(2).minutes(30).seconds(10);
 	assert_eq!(alarm.length, Some(9_010));
