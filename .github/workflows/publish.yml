@@ -70,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.job.target }}
-          path: ./deb/termux-clock_${version}_${{ matrix.job.arch }}.deb
+          path: ./deb/termux-clock_${{ env.version }}_${{ matrix.job.arch }}.deb
 
   github_releases:
     name: Publish to GitHub Releases
