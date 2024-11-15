@@ -130,6 +130,18 @@ mod tests {
     }
 
     #[test]
+    fn test_from() {
+        let alarm = Alarm::from(Some(6), Some(30), Some(vec![1, 2, 3]), Some(String::from("Wake Up!")), true, true);
+        
+        assert_eq!(alarm.hour, Some(6));
+        assert_eq!(alarm.minutes, Some(30));
+        assert_eq!(alarm.days, Some(vec![1, 2, 3]));
+        assert_eq!(&alarm.message.unwrap(), "Wake Up!");
+        assert_eq!(alarm.vibrate, true);
+        assert_eq!(alarm.termux, true);
+        }
+
+    #[test]
     fn test_hour() {
         let alarm = Alarm::new().hour(6);
         assert_eq!(alarm.hour, Some(6));

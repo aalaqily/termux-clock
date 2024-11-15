@@ -131,6 +131,16 @@ mod tests {
     }
 
     #[test]
+    fn test_from() {
+        let timer = Timer::from(Some(6), Some(30), Some(15), Some(String::from("Wake Up!")), true, true);
+
+        assert_eq!(timer.length, Some(23_415));
+        assert_eq!(&timer.message.unwrap(), "Wake Up!");
+        assert_eq!(timer.vibrate, true);
+        assert_eq!(timer.termux, true);
+        }
+
+    #[test]
     fn test_hours() {
         let alarm = Timer::new().hours(6);
         assert_eq!(alarm.length, Some(21_600));
