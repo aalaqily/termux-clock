@@ -1,12 +1,9 @@
-mod android;
-mod frontend;
-mod termux;
-
-use android::*;
-use frontend::*;
-use termux::*;
-
 use clap::{Parser, Subcommand};
+
+use termux_clock::{
+    timer::Timer,
+    alarm::Alarm,
+};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -18,11 +15,20 @@ struct Args {
 #[derive(Subcommand, Debug, Clone)]
 enum Commands {
     Timer {
-        #[arg(short, long)]
-        length: Option<u32>,
+        #[arg(short = 'H', long)]
+        hours: Option<u32>,
+
+        #[arg(short = 'M', long)]
+        minutes: Option<u32>,
+
+        #[arg(short = 'S', long)]
+        seconds: Option<u32>,
 
         #[arg(short, long)]
         message: Option<String>,
+
+        #[arg(short, long)]
+        vibrate: bool,
 
         #[arg(short, long)]
         termux: bool,
@@ -30,19 +36,19 @@ enum Commands {
 
     Alarm {
         #[arg(short = 'H', long)]
-        hour: Option<u32>,
+        hour: Option<u8>,
 
         #[arg(short = 'M', long)]
-        minutes: Option<u32>,
+        minutes: Option<u8>,
 
         #[arg(short, long, value_delimiter = ' ')]
-        days: Option<Vec<u32>>,
+        days: Option<Vec<u8>>,
 
         #[arg(short, long)]
         message: Option<String>,
 
         #[arg(short, long)]
-        vibrate: Option<bool>,
+        vibrate: bool,
 
         #[arg(short, long)]
         termux: bool,
@@ -53,15 +59,23 @@ fn main() {
     let args = Args::parse();
     match args.cmd {
         Commands::Timer {
-            length,
+            hours,
+            minutes,
+            seconds,
             message,
+            vibrate,
             termux,
         } => {
-            if termux {
-                Termux::set_timer(length, message)
-            } else {
-                Android::set_timer(length, message)
-            }
+            let timer = Timer::from(
+                hours,
+                minutes,
+                seconds,
+                message,
+                vibrate,
+                termux,
+            );
+            
+            timer.set();
         }
         Commands::Alarm {
             hour,
@@ -71,12 +85,16 @@ fn main() {
             vibrate,
             termux,
         } => {
-            if termux {
-                Termux::set_alarm(hour, minutes, days, message, vibrate)
-            } else {
-                Android::set_alarm(hour, minutes, days, message, vibrate)
-            }
+            let alarm = Alarm::from(
+                hour,
+                minutes,
+                days,
+                message,
+                vibrate,
+                termux,
+            );
+            
+            alarm.set();
         }
-        _ => (),
     }
 }
