@@ -111,7 +111,7 @@ mod tests {
         .map(|s| OsStr::new(s))
         .collect();
 
-        let command = set_timer_command(Timer::new().seconds(60).message(String::from("Wake up!")));
+        let command = set_timer_command(Timer::new().seconds(60).message("Wake up!"));
 
         let right_args = command.get_args().collect::<Vec<&OsStr>>();
 
@@ -152,7 +152,7 @@ mod tests {
                 .hour(6)
                 .minutes(30)
                 .days(vec![1, 2, 5])
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(false),
         );
 
@@ -194,7 +194,7 @@ mod tests {
             Alarm::new()
                 .hour(6)
                 .days(vec![1, 2, 5])
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(false),
         );
 
@@ -229,7 +229,7 @@ mod tests {
         let command = set_alarm_command(
             Alarm::new()
                 .days(vec![1, 2, 5])
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(false),
         );
 
@@ -269,7 +269,7 @@ mod tests {
                 .hour(6)
                 .minutes(30)
                 .days(vec![1, 2, 5])
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(true),
         );
 

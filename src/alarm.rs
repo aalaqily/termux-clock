@@ -1,5 +1,3 @@
-use std::ffi::OsStr;
-
 use crate::wrappers::{
     cron,
     at,
@@ -43,8 +41,9 @@ impl Alarm {
         self
     }
 
-    pub fn message(mut self, message: String) -> Self {
-        self.message = Some(message);
+
+    pub fn message(mut self, message: &str) -> Self {
+        self.message = Some(String::from(message));
         self
     }
 
@@ -105,7 +104,7 @@ mod tests {
             days: None,
             message: None,
             vibrate: false,
-	    termux: false,
+            termux: false,
         };
 
         let right = Alarm::new();
@@ -133,8 +132,8 @@ mod tests {
 
     #[test]
     fn test_message() {
-        let alarm = Alarm::new().message(String::from("Wake Up!"));
-        assert_eq!(alarm.message, Some(String::from("Wake Up!")));
+        let alarm = Alarm::new().message("Wake Up!");
+        assert_eq!(&alarm.message.unwrap(), "Wake Up!");
     }
 
     #[test]

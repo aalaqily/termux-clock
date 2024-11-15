@@ -17,7 +17,7 @@ impl Timer {
             length: None,
             message: None,
             vibrate: false,
-	    termux: false,
+            termux: false,
         }
     }
 
@@ -36,8 +36,8 @@ impl Timer {
         self
     }
 
-    pub fn message(mut self, message: String) -> Self {
-        self.message = Some(message);
+    pub fn message(mut self, message: &str) -> Self {
+        self.message = Some(String::from(message));
         self
     }
 
@@ -61,8 +61,8 @@ impl Timer {
 
 	#[cfg(debug_assertions)]
         {
-            let args = command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
-            dbg!(&args);
+            let args = &command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
+            dbg!(args);
             let args_str = &args.join(" ");
             dbg!(args_str);
         }
@@ -145,8 +145,8 @@ mod tests {
 
     #[test]
     fn test_message() {
-        let alarm = Timer::new().message(String::from("Wake Up!"));
-        assert_eq!(alarm.message, Some(String::from("Wake Up!")));
+        let alarm = Timer::new().message("Wake Up!");
+        assert_eq!(&alarm.message.unwrap(), "Wake Up!");
     }
 
     #[test]

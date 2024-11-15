@@ -65,7 +65,7 @@ mod tests {
         let command = set_timer_command(
             Timer::new()
                 .seconds(60)
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(true),
         );
 
@@ -84,7 +84,7 @@ mod tests {
         .map(|s| OsStr::new(s))
         .collect();
 
-        let command = set_timer_command(Timer::new().seconds(60).message(String::from("Wake up!")));
+        let command = set_timer_command(Timer::new().seconds(60).message("Wake up!"));
 
         let right_args = command.get_args().collect::<Vec<&OsStr>>();
 
@@ -114,7 +114,7 @@ mod tests {
             "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate",
         );
 
-        let right = set_alarm_string(Alarm::new().message(String::from("Wake up!")).vibrate(true));
+        let right = set_alarm_string(Alarm::new().message("Wake up!").vibrate(true));
 
         assert_eq!(left, right);
     }
@@ -132,7 +132,7 @@ mod tests {
     fn test_set_alarm_vibrate_false() {
         let left = String::from("termux-notification --title 'Termux Alarm' --content 'Wake up!' ");
 
-        let right = set_alarm_string(Alarm::new().message(String::from("Wake up!")));
+        let right = set_alarm_string(Alarm::new().message("Wake up!"));
 
         assert_eq!(left, right);
     }
