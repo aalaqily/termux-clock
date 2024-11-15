@@ -1,6 +1,8 @@
+use std::process::Stdio;
+
 use crate::wrappers::{am, termux};
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Timer {
     pub length: Option<u32>,
     pub message: Option<String>,
@@ -80,9 +82,9 @@ impl Timer {
 
     pub fn set(self) {
         let mut command = if self.termux {
-            termux::set_timer_command(self)
+            termux::set_timer_command(self.clone())
         } else {
-            am::set_timer_command(self)
+            am::set_timer_command(self.clone())
         };
 
         #[cfg(debug_assertions)]
@@ -96,16 +98,25 @@ impl Timer {
             dbg!(args_str);
         }
 
-        let output = command.output().expect("Unable to set timer");
+        if self.termux {
+            let mut child = command.spawn().expect("Unable to set timer");
 
-        #[cfg(debug_assertions)]
-        {
-            let status = output.status;
-            let stdout = String::from_utf8(output.stdout).unwrap();
-            let stderr = String::from_utf8(output.stderr).unwrap();
-            dbg!(status);
-            dbg!(stdout);
-            dbg!(stderr);
+            #[cfg(debug_assertions)]
+            {
+                let status = child.wait().expect("Failed to wait for spawned process");
+                dbg!(status);
+            }
+        } else {
+            let output = command.output().expect("Unable to set timer");
+            #[cfg(debug_assertions)]
+            {
+                let status = output.status;
+                let stdout = String::from_utf8(output.stdout).unwrap();
+                let stderr = String::from_utf8(output.stderr).unwrap();
+                dbg!(status);
+                dbg!(stdout);
+                dbg!(stderr);
+            }
         }
     }
 }
