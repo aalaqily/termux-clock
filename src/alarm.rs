@@ -1,8 +1,4 @@
-use crate::wrappers::{
-    cron,
-    at,
-    am,
-};
+use crate::wrappers::{am, at, cron};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Alarm {
@@ -26,7 +22,8 @@ impl Alarm {
         }
     }
 
-    pub fn from(hour: Option<u8>,
+    pub fn from(
+        hour: Option<u8>,
         minutes: Option<u8>,
         days: Option<Vec<u8>>,
         message: Option<String>,
@@ -58,7 +55,6 @@ impl Alarm {
         self
     }
 
-
     pub fn message(mut self, message: &str) -> Self {
         self.message = Some(String::from(message));
         self
@@ -70,42 +66,42 @@ impl Alarm {
     }
 
     pub fn termux(mut self, termux: bool) -> Self {
-	self.termux = termux;
-	self
+        self.termux = termux;
+        self
     }
 
     pub fn set(self) {
-	let mut command = if self.termux {
-	    match self.days {
-		Some(_) => cron::schedule_alarm_command(self),
-		None => at::schedule_alarm_command(self),
-	    }
-	}
-	else {
-	    am::set_alarm_command(self)
-	};
+        let mut command = if self.termux {
+            match self.days {
+                Some(_) => cron::schedule_alarm_command(self),
+                None => at::schedule_alarm_command(self),
+            }
+        } else {
+            am::set_alarm_command(self)
+        };
 
-	#[cfg(debug_assertions)]
-	{
-	    let args = command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
-	    dbg!(&args);
-	    let args_str = &args.join(" ");
-	    dbg!(args_str);
-	}
+        #[cfg(debug_assertions)]
+        {
+            let args = command
+                .get_args()
+                .map(|a| a.to_str().unwrap())
+                .collect::<Vec<&str>>();
+            dbg!(&args);
+            let args_str = &args.join(" ");
+            dbg!(args_str);
+        }
 
-	let output = command
-	    .output()
-	    .expect("Unable to set alarm");
+        let output = command.output().expect("Unable to set alarm");
 
-	#[cfg(debug_assertions)]
-	{
-	    let status = output.status;
+        #[cfg(debug_assertions)]
+        {
+            let status = output.status;
             let stdout = String::from_utf8(output.stdout).unwrap();
             let stderr = String::from_utf8(output.stderr).unwrap();
             dbg!(status);
             dbg!(stdout);
             dbg!(stderr);
-	}
+        }
     }
 }
 
@@ -131,15 +127,22 @@ mod tests {
 
     #[test]
     fn test_from() {
-        let alarm = Alarm::from(Some(6), Some(30), Some(vec![1, 2, 3]), Some(String::from("Wake Up!")), true, true);
-        
+        let alarm = Alarm::from(
+            Some(6),
+            Some(30),
+            Some(vec![1, 2, 3]),
+            Some(String::from("Wake Up!")),
+            true,
+            true,
+        );
+
         assert_eq!(alarm.hour, Some(6));
         assert_eq!(alarm.minutes, Some(30));
         assert_eq!(alarm.days, Some(vec![1, 2, 3]));
         assert_eq!(&alarm.message.unwrap(), "Wake Up!");
         assert_eq!(alarm.vibrate, true);
         assert_eq!(alarm.termux, true);
-        }
+    }
 
     #[test]
     fn test_hour() {
@@ -173,7 +176,7 @@ mod tests {
 
     #[test]
     fn test_termux() {
-	let alarm = Alarm::new().termux(true);
-	assert_eq!(alarm.termux, true);
+        let alarm = Alarm::new().termux(true);
+        assert_eq!(alarm.termux, true);
     }
 }

@@ -39,9 +39,10 @@ pub fn schedule_string_command(
     );
 
     let mut command = Command::new("sh");
-    command
-        .arg("-c")
-        .arg(format!(r#"(crontab -l; echo "{}") | crontab -"#, cron_entry));
+    command.arg("-c").arg(format!(
+        r#"(crontab -l; echo "{}") | crontab -"#,
+        cron_entry
+    ));
     command
 }
 pub fn schedule_alarm_command(alarm: Alarm) -> Command {
@@ -69,9 +70,10 @@ pub fn schedule_alarm_command(alarm: Alarm) -> Command {
     );
 
     let mut command = Command::new("sh");
-    command
-        .arg("-c")
-        .arg(format!(r#"(crontab -l; echo "{}") | crontab -"#, cron_entry));
+    command.arg("-c").arg(format!(
+        r#"(crontab -l; echo "{}") | crontab -"#,
+        cron_entry
+    ));
     command
 }
 

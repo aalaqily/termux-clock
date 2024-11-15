@@ -1,7 +1,4 @@
-use crate::wrappers::{
-    am,
-    termux,
-};
+use crate::wrappers::{am, termux};
 
 #[derive(Debug, PartialEq)]
 pub struct Timer {
@@ -21,7 +18,8 @@ impl Timer {
         }
     }
 
-    pub fn from(hours: Option<u32>,
+    pub fn from(
+        hours: Option<u32>,
         minutes: Option<u32>,
         seconds: Option<u32>,
         message: Option<String>,
@@ -76,29 +74,29 @@ impl Timer {
     }
 
     pub fn termux(mut self, termux: bool) -> Self {
-	self.termux = termux;
-	self
+        self.termux = termux;
+        self
     }
 
     pub fn set(self) {
-	let mut command = if self.termux {
-	    termux::set_timer_command(self)
-	}
-	else {
-	    am::set_timer_command(self)
-	};
+        let mut command = if self.termux {
+            termux::set_timer_command(self)
+        } else {
+            am::set_timer_command(self)
+        };
 
-	#[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         {
-            let args = &command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
+            let args = &command
+                .get_args()
+                .map(|a| a.to_str().unwrap())
+                .collect::<Vec<&str>>();
             dbg!(args);
             let args_str = &args.join(" ");
             dbg!(args_str);
         }
 
-        let output = command
-            .output()
-            .expect("Unable to set timer");
+        let output = command.output().expect("Unable to set timer");
 
         #[cfg(debug_assertions)]
         {
@@ -122,7 +120,7 @@ mod tests {
             length: None,
             message: None,
             vibrate: false,
-	    termux: false,
+            termux: false,
         };
 
         let right = Timer::new();
@@ -132,13 +130,20 @@ mod tests {
 
     #[test]
     fn test_from() {
-        let timer = Timer::from(Some(6), Some(30), Some(15), Some(String::from("Wake Up!")), true, true);
+        let timer = Timer::from(
+            Some(6),
+            Some(30),
+            Some(15),
+            Some(String::from("Wake Up!")),
+            true,
+            true,
+        );
 
         assert_eq!(timer.length, Some(23_415));
         assert_eq!(&timer.message.unwrap(), "Wake Up!");
         assert_eq!(timer.vibrate, true);
         assert_eq!(timer.termux, true);
-        }
+    }
 
     #[test]
     fn test_hours() {
@@ -160,26 +165,26 @@ mod tests {
 
     #[test]
     fn test_hours_minutes() {
-	let alarm = Timer::new().hours(2).minutes(30);
-	assert_eq!(alarm.length, Some(9_000));
+        let alarm = Timer::new().hours(2).minutes(30);
+        assert_eq!(alarm.length, Some(9_000));
     }
 
     #[test]
     fn test_hours_seconds() {
-	let alarm = Timer::new().hours(2).seconds(50);
-	assert_eq!(alarm.length, Some(7_250));
+        let alarm = Timer::new().hours(2).seconds(50);
+        assert_eq!(alarm.length, Some(7_250));
     }
 
     #[test]
     fn test_minutes_seconds() {
-	let alarm = Timer::new().minutes(30).seconds(15);
-	assert_eq!(alarm.length, Some(1_815));
+        let alarm = Timer::new().minutes(30).seconds(15);
+        assert_eq!(alarm.length, Some(1_815));
     }
 
     #[test]
     fn test_hours_minutes_seconds() {
-	let alarm = Timer::new().hours(2).minutes(30).seconds(10);
-	assert_eq!(alarm.length, Some(9_010));
+        let alarm = Timer::new().hours(2).minutes(30).seconds(10);
+        assert_eq!(alarm.length, Some(9_010));
     }
 
     #[test]
@@ -196,7 +201,7 @@ mod tests {
 
     #[test]
     fn test_termux() {
-	let alarm = Timer::new().termux(true);
-	assert!(alarm.termux);
+        let alarm = Timer::new().termux(true);
+        assert!(alarm.termux);
     }
 }

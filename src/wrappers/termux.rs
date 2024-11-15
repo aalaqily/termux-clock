@@ -62,12 +62,7 @@ mod tests {
         .map(|s| OsStr::new(s))
         .collect();
 
-        let command = set_timer_command(
-            Timer::new()
-                .seconds(60)
-                .message("Wake up!")
-                .vibrate(true),
-        );
+        let command = set_timer_command(Timer::new().seconds(60).message("Wake up!").vibrate(true));
 
         let right_args = command.get_args().collect::<Vec<&OsStr>>();
 

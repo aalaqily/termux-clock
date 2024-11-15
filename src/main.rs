@@ -1,9 +1,6 @@
 use clap::{Parser, Subcommand};
 
-use termux_clock::{
-    timer::Timer,
-    alarm::Alarm,
-};
+use termux_clock::{alarm::Alarm, timer::Timer};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -66,15 +63,8 @@ fn main() {
             vibrate,
             termux,
         } => {
-            let timer = Timer::from(
-                hours,
-                minutes,
-                seconds,
-                message,
-                vibrate,
-                termux,
-            );
-            
+            let timer = Timer::from(hours, minutes, seconds, message, vibrate, termux);
+
             timer.set();
         }
         Commands::Alarm {
@@ -85,15 +75,8 @@ fn main() {
             vibrate,
             termux,
         } => {
-            let alarm = Alarm::from(
-                hour,
-                minutes,
-                days,
-                message,
-                vibrate,
-                termux,
-            );
-            
+            let alarm = Alarm::from(hour, minutes, days, message, vibrate, termux);
+
             alarm.set();
         }
     }

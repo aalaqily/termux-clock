@@ -58,12 +58,8 @@ mod tests {
     fn test_schedule_alarm_command_minutes_none() {
         let left = r#"echo "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate" | at 6:0"#;
 
-        let command = schedule_alarm_command(
-            Alarm::new()
-                .hour(6)
-                .message("Wake up!")
-                .vibrate(true),
-        );
+        let command =
+            schedule_alarm_command(Alarm::new().hour(6).message("Wake up!").vibrate(true));
 
         let right = command.get_args().collect::<Vec<&OsStr>>()[1];
 
@@ -74,8 +70,7 @@ mod tests {
     fn test_schedule_alarm_command_hour_none_minutes_none() {
         let left = r#"echo "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate" | at 0:0"#;
 
-        let command =
-            schedule_alarm_command(Alarm::new().message("Wake up!").vibrate(true));
+        let command = schedule_alarm_command(Alarm::new().message("Wake up!").vibrate(true));
 
         let right = command.get_args().collect::<Vec<&OsStr>>()[1];
 
