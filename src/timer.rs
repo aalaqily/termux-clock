@@ -1,8 +1,14 @@
+use crate::wrappers::{
+    am,
+    termux,
+};
+
 #[derive(Debug, PartialEq)]
 pub struct Timer {
     pub length: Option<u32>,
     pub message: Option<String>,
     pub vibrate: bool,
+    pub termux: bool,
 }
 
 impl Timer {
@@ -11,10 +17,40 @@ impl Timer {
             length: None,
             message: None,
             vibrate: false,
+            termux: false,
         }
     }
 
-    pub fn hour(mut self, hour: u32) -> Self {
+    pub fn from(hours: Option<u32>,
+        minutes: Option<u32>,
+        seconds: Option<u32>,
+        message: Option<String>,
+        vibrate: bool,
+        termux: bool,
+    ) -> Timer {
+        let mut timer = Timer {
+            length: None,
+            message,
+            vibrate,
+            termux,
+        };
+
+        if let Some(h) = hours {
+            timer = timer.hours(h);
+        };
+
+        if let Some(m) = minutes {
+            timer = timer.minutes(m);
+        };
+
+        if let Some(s) = seconds {
+            timer = timer.seconds(s);
+        };
+
+        timer
+    }
+
+    pub fn hours(mut self, hour: u32) -> Self {
         self.length = Some(self.length.map_or(hour * 3600, |l| l + hour * 3600));
         self
     }
@@ -29,14 +65,50 @@ impl Timer {
         self
     }
 
-    pub fn message(mut self, message: String) -> Self {
-        self.message = Some(message);
+    pub fn message(mut self, message: &str) -> Self {
+        self.message = Some(String::from(message));
         self
     }
 
     pub fn vibrate(mut self, vibrate: bool) -> Self {
         self.vibrate = vibrate;
         self
+    }
+
+    pub fn termux(mut self, termux: bool) -> Self {
+	self.termux = termux;
+	self
+    }
+
+    pub fn set(self) {
+	let mut command = if self.termux {
+	    termux::set_timer_command(self)
+	}
+	else {
+	    am::set_timer_command(self)
+	};
+
+	#[cfg(debug_assertions)]
+        {
+            let args = &command.get_args().map(|a| a.to_str().unwrap()).collect::<Vec<&str>>();
+            dbg!(args);
+            let args_str = &args.join(" ");
+            dbg!(args_str);
+        }
+
+        let output = command
+            .output()
+            .expect("Unable to set timer");
+
+        #[cfg(debug_assertions)]
+        {
+            let status = output.status;
+            let stdout = String::from_utf8(output.stdout).unwrap();
+            let stderr = String::from_utf8(output.stderr).unwrap();
+            dbg!(status);
+            dbg!(stdout);
+            dbg!(stderr);
+        }
     }
 }
 
@@ -50,6 +122,7 @@ mod tests {
             length: None,
             message: None,
             vibrate: false,
+	    termux: false,
         };
 
         let right = Timer::new();
@@ -58,8 +131,18 @@ mod tests {
     }
 
     #[test]
-    fn test_hour() {
-        let alarm = Timer::new().hour(6);
+    fn test_from() {
+        let timer = Timer::from(Some(6), Some(30), Some(15), Some(String::from("Wake Up!")), true, true);
+
+        assert_eq!(timer.length, Some(23_415));
+        assert_eq!(&timer.message.unwrap(), "Wake Up!");
+        assert_eq!(timer.vibrate, true);
+        assert_eq!(timer.termux, true);
+        }
+
+    #[test]
+    fn test_hours() {
+        let alarm = Timer::new().hours(6);
         assert_eq!(alarm.length, Some(21_600));
     }
 
@@ -76,14 +159,44 @@ mod tests {
     }
 
     #[test]
+    fn test_hours_minutes() {
+	let alarm = Timer::new().hours(2).minutes(30);
+	assert_eq!(alarm.length, Some(9_000));
+    }
+
+    #[test]
+    fn test_hours_seconds() {
+	let alarm = Timer::new().hours(2).seconds(50);
+	assert_eq!(alarm.length, Some(7_250));
+    }
+
+    #[test]
+    fn test_minutes_seconds() {
+	let alarm = Timer::new().minutes(30).seconds(15);
+	assert_eq!(alarm.length, Some(1_815));
+    }
+
+    #[test]
+    fn test_hours_minutes_seconds() {
+	let alarm = Timer::new().hours(2).minutes(30).seconds(10);
+	assert_eq!(alarm.length, Some(9_010));
+    }
+
+    #[test]
     fn test_message() {
-        let alarm = Timer::new().message(String::from("Wake Up!"));
-        assert_eq!(alarm.message, Some(String::from("Wake Up!")));
+        let alarm = Timer::new().message("Wake Up!");
+        assert_eq!(&alarm.message.unwrap(), "Wake Up!");
     }
 
     #[test]
     fn test_vibrate() {
         let alarm = Timer::new().vibrate(true);
-        assert_eq!(alarm.vibrate, true);
+        assert!(alarm.vibrate);
+    }
+
+    #[test]
+    fn test_termux() {
+	let alarm = Timer::new().termux(true);
+	assert!(alarm.termux);
     }
 }

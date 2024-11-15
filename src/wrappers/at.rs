@@ -45,7 +45,7 @@ mod tests {
             Alarm::new()
                 .hour(6)
                 .minutes(30)
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(true),
         );
 
@@ -61,7 +61,7 @@ mod tests {
         let command = schedule_alarm_command(
             Alarm::new()
                 .hour(6)
-                .message(String::from("Wake up!"))
+                .message("Wake up!")
                 .vibrate(true),
         );
 
@@ -75,7 +75,7 @@ mod tests {
         let left = r#"echo "termux-notification --title 'Termux Alarm' --content 'Wake up!' && termux-vibrate" | at 0:0"#;
 
         let command =
-            schedule_alarm_command(Alarm::new().message(String::from("Wake up!")).vibrate(true));
+            schedule_alarm_command(Alarm::new().message("Wake up!").vibrate(true));
 
         let right = command.get_args().collect::<Vec<&OsStr>>()[1];
 
