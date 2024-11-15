@@ -10,6 +10,12 @@
   "data_files": {
       "bin/termux-clock": {
         "source": "target/aarch64-linux-android/release/termux-clock"
+      },
+      "doc/termux-clock/README.md": {
+	  "source": "README.md"
+      },
+      "doc/termux-clock/CHANGELOG.md": {
+	  "source": "CHANGELOG.md"
       }
     },
     "deb_dir": "deb"
