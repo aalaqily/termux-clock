@@ -22,7 +22,24 @@ impl Alarm {
             days: None,
             message: None,
             vibrate: false,
-	    termux: false
+            termux: false,
+        }
+    }
+
+    pub fn from(hour: Option<u8>,
+        minutes: Option<u8>,
+        days: Option<Vec<u8>>,
+        message: Option<String>,
+        vibrate: bool,
+        termux: bool,
+    ) -> Alarm {
+        Alarm {
+            hour,
+            minutes,
+            days,
+            message,
+            vibrate,
+            termux,
         }
     }
 

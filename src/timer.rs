@@ -21,6 +21,35 @@ impl Timer {
         }
     }
 
+    pub fn from(hours: Option<u32>,
+        minutes: Option<u32>,
+        seconds: Option<u32>,
+        message: Option<String>,
+        vibrate: bool,
+        termux: bool,
+    ) -> Timer {
+        let mut timer = Timer {
+            length: None,
+            message,
+            vibrate,
+            termux,
+        };
+
+        if let Some(h) = hours {
+            timer = timer.hours(h);
+        };
+
+        if let Some(m) = minutes {
+            timer = timer.minutes(m);
+        };
+
+        if let Some(s) = seconds {
+            timer = timer.seconds(s);
+        };
+
+        timer
+    }
+
     pub fn hours(mut self, hour: u32) -> Self {
         self.length = Some(self.length.map_or(hour * 3600, |l| l + hour * 3600));
         self
