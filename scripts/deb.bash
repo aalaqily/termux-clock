@@ -8,7 +8,7 @@ Usage: deb <arch[,...]> [-n, --native] [-a, --all] [-h, --help]
 build termux deb packages
 
 options:
-  -n, --native    build natively with cargo (termux only)
+  -n, --native    build for native target
   -a, -all        build for all targets
   -h, --help      display this help message & exit
 

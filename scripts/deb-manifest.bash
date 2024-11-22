@@ -8,15 +8,15 @@ Usage: deb-manifest <arch[,...]> [-n, --native] [-a, --all] [-h, --help]
 generate termux deb packages manifests 
 
 options:
-  -n, --native    build natively with cargo (termux only)
+  -n, --native    build for native target
   -a, -all        build for all targets
   -h, --help      display this help message & exit
 
-available targets:
-  aarch64         64-bit ARM
-  arm             32-bit ARM
-  i686            32-bit x86
-  x86_64          64-bit x86"
+available architectures:
+  aarch64  =>  aarch64-linux-android    64-bit ARM
+  arm      =>  arm-linux-androideabi    32-bit ARM
+  x86_64   =>  x86_64-linux-android     64-bit x86 
+  i686     =>  i686-linux-android       32-bit x86"
 }
 
 source "`just common-file-path`"
