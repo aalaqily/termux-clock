@@ -56,7 +56,7 @@ other tools (except bash) will be installed automatically during build process, 
 `install-tool` recipe are expected to run on debian-based distros. if you are using other distros or termux, it is better to install them manually.
 ## Recipes
 if you don't know just recipes read [just documentation](https://just.systems/man/en/).
-| Recipe | Details |
+| Recipe | Description |
 | ------ | ------- |
 | `build *FLAGS` | - |
 | `test *FLAGS` | - |
@@ -76,39 +76,27 @@ if you don't know just recipes read [just documentation](https://just.systems/ma
 Other recipes can be found in `justfile` and `justmodules` directory.
 # Usage
 ## `timer`
-### `-H, --hours <HOURS>`
-add hours to timer length.
-### `-M, --minutes <MINUTES>`
-add minutes to timer length.
-### `-S, --seconds <SECONDS>`
-add seconds to timer length.
-### `-m, --message <MESSAGE>`
-timer message.
-### `-v, --vibrate`
-enable vibration.
-> [!NOTE]
-> `-v, --vibrate` option is not available in android timers, so use it with `--termux` option.
-### `-t, --termux`
-set timer in termux instead of android alarm clock.
+| Option | Description | Notes |
+| ------ | ----------- | ----- |
+| `-H, --hours <HOURS>` | add hours to timer length. | - |
+| `-M, --minutes <MINUTES>` | add minutes to timer length. | - |
+| `-S, --seconds <SECONDS>` | add seconds to timer length. | - |
+| `-m, --message <MESSAGE>` | timer message. | - |
+| `-v, --vibrate` | enable vibration. | not available in android timers, so use it with `--termux` option. |
+| `-t, --termux` | set timer in termux instead of android alarm clock. | - |
 ### Example
 ```sh
 termux-clock timer -l 60 -t -m "Timer for 1 minute in Termux"
 ```
 ## `alarm`
-### `-H, --hour <HOUR>`
-alarm hour.
-> [!NOTE]
-> Hour is supposed to be `am` by default, to make an alarm at `pm` hour add `12` to hour value.
-### `-M, --minutes <MINUTES>`
-alarm extra minutes.
-### `-d, --days <DAYS>`
-days to recurr the alarm, denoted by comma-seperated numbers between double quotes, e. g. `1,2,3`, where each number corresponds to a weekday, starting from Sunday in android alarms, or Monday in termux alarms.
-### `-m, --message <MESSAGE>`
-alarm message.
-### `-v, --vibrate`
-enable vibration.
-### `-t, --termux`
-set alarm in termux instead of android alarm clock.
+| Option | Description |
+| ------ | ----------- |
+| `-H, --hours <HOURS>` | alarm hour. |
+| `-M, --minutes <MINUTES>` | alarm extra minutes. |
+| `-d, --days <DAYS>` | days to recurr the alarm, denoted by comma-seperated numbers, e. g. `1,2,3`, where each number corresponds to a weekday, starting from Sunday in android alarms, or Monday in termux alarms. |
+| `-m, --message <MESSAGE>` | alarm message. |
+| `-v, --vibrate` | enable vibration. |
+| `-t, --termux` | set alarm in termux instead of android alarm clock. |
 ### Example
 ```sh
 termux-clock alarm -H 6 -M 30 -d "1 2 3" -v -m "Alarm at 06:30 am 🕡 every Sunday, Monday and Tuesday with vibration enabled 📳"
