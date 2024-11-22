@@ -14,7 +14,7 @@ options:
 available tools:
   cross                    for cross building for android targets
   termux-create-package    for creating termux deb packages
-  jq                       for generating termux deb packages manifests
+  yq                       for generating termux deb packages manifests and reading version from Cargo.toml
   rust-script              for executing rust scripts"
 }
 
