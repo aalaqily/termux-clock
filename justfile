@@ -23,6 +23,7 @@ install-tool +ARGS:
     scripts/install-tool.bash {{ARGS}}
 
 fetch-version:
+    just install-tool rust-script
     scripts/fetch-version.rs
 
 install-termux-deps:
