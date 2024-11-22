@@ -19,18 +19,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        target:
-          - aarch64-linux-android       # 64-bit ARM
-          - armv7-linux-androideabi      # 32-bit ARM
-          - i686-linux-android           # 32-bit x86
-          - x86_64-linux-android         # 64-bit x86
-          - arm-linux-androideabi        # 32-bit ARM (older ABI)
-          - thumbv7neon-linux-androideabi # 32-bit ARM with NEON
    
-    name: ${{ matrix.target }}
+    name: Build and test
     
     steps:
       - name: Checkout repository
@@ -42,20 +32,10 @@ jobs:
       - name: Cache dependencies and binaries
         uses: Swatinem/rust-cache@v2
 
-      - name: Install cross
-        shell: bash
-        run: |
-          if ! command -v cross &> /dev/null; then
-            echo "cross not found, installing..."
-            cargo install cross --git https://github.com/cross-rs/cross
-          else
-            echo "cross already installed, skipping installation."
-          fi
-
       - name: Build
         shell: bash
-        run: cross build --target ${{ matrix.target }} --verbose
+        run: cargo build --verbose
      
       - name: Test
         shell: bash
-        run: cross test --target ${{ matrix.target }} --verbose
+        run: cargo test --verbose
