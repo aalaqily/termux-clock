@@ -7,7 +7,7 @@ Versioning].
 [keep a changelog]: https://keepachangelog.com/
 [semantic versioning]: https://semver.org/
 
-## [v0.3.1] - 2024-11-17
+## [v0.3.1] - 2024-11-22
 
 [v0.3.1]: https://github.com/iahmadgad/termux-clock/releases/v0.3.1
 
