@@ -69,12 +69,12 @@ fi
 
 for tool in $tools; do
     if [[ -z "${install_commands[$tool]}" ]]; then
-        echo "Unknown tool: $tool"
+        echo "Unknown tool: $tool" >&2
         exit 1
     elif ! command -v "$tool" > /dev/null 2>&1; then
-        echo "$tool not found, installing..."
+        echo "$tool not found, installing..." >&2
         eval "${install_commands[$tool]}"
     else
-        echo "$tool already installed, skipping installation."
+        echo "$tool already installed, skipping installation." >&2
     fi
 done
