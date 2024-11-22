@@ -1,3 +1,6 @@
+default *FLAGS:
+    cargo clean {{ FLAGS }}
+
 backups:
     find {{ justfile_directory() }} -type f -name '*~' -exec rm -f {} +
 
