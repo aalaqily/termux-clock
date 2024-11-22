@@ -3,15 +3,15 @@
 Help()
 {
     echo "\
-Usage: deb-manifest <arch[,...]> [-n, --native] [-a, --all] [-h, --help]
+Usage: deb-manifest <arch[,...]> [-n, --native] [-a, --all] [-d, --deps DEPS] [-h, --help]
 
 generate termux deb packages manifests 
 
 options:
-  -n, --native    build for native target
-  -a, --all       build for all targets
-  -d, --deps      termux dependencies
-  -h, --help      display this help message & exit
+  -n, --native       build for native target
+  -a, --all          build for all targets
+  -d, --deps DEPS    termux dependencies
+  -h, --help         display this help message & exit
 
 available architectures:
   aarch64  =>  aarch64-linux-android    64-bit ARM
