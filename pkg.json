@@ -2,7 +2,6 @@
   "control": {
     "Package": "termux-clock",
     "Maintainer": "Ahmad Asaad <ahmadasaadh@gmail.com>",
-    "Depends": "termux-api, at, cronie",
     "Description": "Termux tool to set alarms & timers headlessly"
   },
   "installation_prefix": "/data/data/com.termux/files/usr",

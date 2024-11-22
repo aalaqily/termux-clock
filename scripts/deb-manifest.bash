@@ -9,7 +9,8 @@ generate termux deb packages manifests
 
 options:
   -n, --native    build for native target
-  -a, -all        build for all targets
+  -a, --all       build for all targets
+  -d, --deps      termux dependencies
   -h, --help      display this help message & exit
 
 available architectures:
@@ -21,7 +22,7 @@ available architectures:
 
 source "`just common-file-path`"
 
-OPTIONS=$(getopt -o nah --long native,all,help -n "$0" -- "$@")
+OPTIONS=$(getopt -o nad:h --long native,all,deps:,help -n "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
     echo "Error parsing options" >&2
     exit 1
@@ -41,6 +42,10 @@ while true; do
             all=true
             shift
             ;;
+	-d|--deps)
+	    deps="$2"
+	    shift 2
+	    ;;
         -h|--help)
             Help
             shift
@@ -93,7 +98,7 @@ for arch in $archs; do
         continue
     fi
     echo "Building deb manifest for arch: $arch"
-    jq ".control.Architecture = \"${arch}\" |\
+    jq ".control.Depends = \"$(echo $deps | sed 's/ /, /g')\"| .control.Architecture = \"${arch}\" |\
     .data_files.\"bin/termux-clock\".source = \"target/$([[ "${targets[$arch]}" != "$NATIVE_TARGET" ]] && echo "${targets[$arch]}/")release/termux-clock\" |\
     .control.Version = \"`just fetch-version`\"" pkg.json > "deb/manifests/${arch}.json"
 done

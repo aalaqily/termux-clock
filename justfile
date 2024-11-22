@@ -1,3 +1,5 @@
+set dotenv-filename := "pkg.env"
+
 build *FLAGS:
     cargo build {{FLAGS}}
 
@@ -35,11 +37,11 @@ fetch-version:
     scripts/fetch-version.rs
 
 install-termux-deps:
-    pkg install termux-api at cronie
+    pkg install $TERMUX_DEPS
 
 # Generate termux deb packages manifests
 deb-manifest +ARGS:
-    scripts/deb-manifest.bash {{ARGS}}
+    scripts/deb-manifest.bash {{ARGS}} --deps "$TERMUX_DEPS"
 
 # Path to scripts/common.bash file
 common-file-path:
