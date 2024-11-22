@@ -39,6 +39,40 @@ cargo install --force --git https://github.com/iahmadgad/termux-clock
 cargo install --force --git https://github.com/iahmadgad/termux-clock --tag <tag>
 ```
 See [`cargo-install(1)`](https://doc.rust-lang.org/cargo/commands/cargo-install.html) for more `cargo install` options.
+# Development
+## Requirements 
+- [just](https://github.com/casey/just) >= `1.19.0` _(for modules feature)_
+- [rust-script](https://github.com/fornwall/rust-script)
+- [jq](https://github.com/jqlang/jq)
+- [cross](https://github.com/cross-rs/cross) _(in case you are not compiling on termux)_
+- [termux-create-package](https://github.com/termux/termux-create-package)
+- bash
+
+Firstly install just:
+```sh
+cargo install just
+```
+other tools (except bash) will be installed automatically during build process, or when you use `install-tool` recipe.
+
+`install-tool` recipe are expected to run on debian-based distros. if you are using other distros or termux it is better to install them manually.
+## Recipes
+if you don't know just recipes read [just documentation](https://just.systems/man/en/).
+- `build *FLAGS`
+- `test *FLAGS`
+- `install`: install as crate with cargo, installed binary will be stored in: `~/.cargo/bin/`.
+- `install-deb`: install as termux deb package with apt, installed binary will be stored in: `/data/data/com.termux/files/usr/bin/`.
+- `install-termux-deps`: install package dependencies with apt.
+- `install-tool +ARGS`: install tool/s used in building process.
+- `fetch-version`: fetch package version and print it.
+- `cross-build +ARGS`: cross build for android targets.
+- `cross-build-all`: cross build for all valid android targets. equivalent to: `cross-build --all`.
+- `deb-manifest +ARGS`: generate termux deb packages manifests, generated manifests are stored in: `deb/manifests/`.
+- `deb +ARGS`: build termux deb packages.
+- `deb-all`: build termux deb packages for all target. equivalent to: `deb --all`.
+- `deb-native`: build termux deb package for native target _(in case you are using Termux)_. equivalent to: `deb --native`.
+- `clean`: clean cache.
+
+Other recipes can be found in `justfile` and `justmodules` directory.
 # Usage
 ## `timer`
 ### `-H, --hours <HOURS>`
@@ -57,7 +91,7 @@ enable vibration.
 set timer in termux instead of android alarm clock.
 ### Example
 ```sh
-termux-clock timer -l 60 -m "Timer for 1 minute in Termux" -t
+termux-clock timer -l 60 -t -m "Timer for 1 minute in Termux"
 ```
 ## `alarm`
 ### `-H, --hour <HOUR>`
@@ -68,7 +102,7 @@ alarm hour.
 alarm extra minutes.
 ### `-d, --days <DAYS>`
 days to recurr the alarm, denoted by comma-seperated numbers between double quotes, e. g. `1,2,3`, where each number corresponds to a weekday, starting from Sunday in android alarms, or Monday in termux alarms.
-### `-m, --message`
+### `-m, --message <MESSAGE>`
 alarm message.
 ### `-v, --vibrate`
 enable vibration.
@@ -76,5 +110,5 @@ enable vibration.
 set alarm in termux instead of android alarm clock.
 ### Example
 ```sh
-termux-clock alarm -H 6 -M 30 -d "1 2 3" -v true -m "Alarm at 06:30 am 🕡 every Sunday, Monday and Tuesday with vibration enabled 📳"
+termux-clock alarm -H 6 -M 30 -d "1 2 3" -v -m "Alarm at 06:30 am 🕡 every Sunday, Monday and Tuesday with vibration enabled 📳"
 ```
