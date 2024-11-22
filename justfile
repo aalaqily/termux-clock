@@ -7,9 +7,14 @@ test *FLAGS: build
 install: install-termux-deps
     cargo install --path .
 
+install-deb: deb-native
+    apt install "./deb/packages/termux-clock_`just fetch-version`_{{ arch() }}.deb"
 # Cross build for android targets
 cross-build +ARGS:
     scripts/cross-build.bash {{ARGS}}
+
+cross-build-all:
+    scripts/cross-build.bash --all
 
 # Build termux deb packages
 deb +ARGS:
