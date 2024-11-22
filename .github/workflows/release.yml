@@ -1,4 +1,4 @@
-name: Publish
+name: Release
 on:
   workflow_dispatch:
     inputs:
@@ -16,9 +16,9 @@ jobs:
     strategy:
       matrix:
         job:
-          - { target: aarch64-linux-android , arch: aarch64 }       # 64-bit ARM
-          - { target: i686-linux-android    , arch: i686 }         # 32-bit x86
-          - { target: x86_64-linux-android  , arch: x86_64 }      # 64-bit x86
+          - { target: aarch64-linux-android , arch: aarch64 }    # 64-bit ARM
+          - { target: i686-linux-android    , arch: i686 }       # 32-bit x86
+          - { target: x86_64-linux-android  , arch: x86_64 }     # 64-bit x86
           - { target: arm-linux-androideabi , arch: arm }        # 32-bit ARM (older ABI)
    
     name: Build Release - ${{ matrix.job.target }}
@@ -28,49 +28,27 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.tag || github.ref }}
-
-      - name: Set version variable
-        run: |
-            version="${{ github.event.inputs.tag || github.ref }}"   
-            version=$(basename $version)
-            version=${version#v}
-            echo "version=$version" >> "$GITHUB_ENV"
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
+          
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache dependencies and binaries
         uses: Swatinem/rust-cache@v2
 
-      - name: Install cross
-        shell: bash
-        run: |
-          if ! command -v cross &> /dev/null; then
-            echo "cross not found, installing..."
-            cargo install cross --git https://github.com/cross-rs/cross
-          else
-            echo "cross already installed, skipping installation."
-          fi
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Set version environment variable
+        run: echo "version=`just fetch-version`" >> "$GITHUB_ENV"
 
       - name: Build
-        shell: bash
-        run: cross build --target ${{ matrix.job.target }} --release
-
-      - name: Install termux-create-package
-        run: pip3 install git+https://github.com/termux/termux-create-package
-
-      - name: Build Termux deb package
-        shell: bash
-        run: ./build/deb.sh -v $version -a ${{ matrix.job.arch }}
-
+        run: just deb ${{ matrix.job.arch }}
+        
       - name: Upload Termux deb package artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.job.target }}
-          path: ./deb/termux-clock_${{ env.version }}_${{ matrix.job.arch }}.deb
+          path: ./deb/packages/termux-clock_${{ env.version }}_${{ matrix.job.arch }}.deb
 
   github_releases:
     name: Publish to GitHub Releases

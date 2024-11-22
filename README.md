@@ -1,7 +1,7 @@
 # Termux Clock
 [![WIP](https://img.shields.io/badge/%F0%9F%9B%A0-WIP-cyan)](#)
-[![Rust](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/rust.yml?label=Rust&logo=rust)](https://github.com/iahmadgad/termux-clock/actions/workflows/rust.yml)
-[![Rust](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/publish.yml?label=Publish&logo=github)](https://github.com/iahmadgad/termux-clock/actions/workflows/publish.yml)
+[![Rust CI workflow](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/rust.yml?label=Rust%20CI&logo=rust)](https://github.com/iahmadgad/termux-clock/actions/workflows/rust.yml)
+[![Release workflow](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/release.yml?label=Release&logo=github)](https://github.com/iahmadgad/termux-clock/actions/workflows/release.yml)
 [![Lines of code](https://tokei.rs/b1/github/iahmadgad/termux-clock?category=code&label=Lines%20of%20code&style=flat)](#)
 [![Latest Tag](https://img.shields.io/github/v/tag/iahmadgad/termux-clock?label=Latest%20tag&sort=semver)](https://github.com/iahmadgad/termux-clock/tags)
 [![Downloads](https://img.shields.io/github/downloads/iahmadgad/termux-clock/total?label=Downloads%20(GH))](https://github.com/iahmadgad/termux-clock/releases)
