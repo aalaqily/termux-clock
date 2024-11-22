@@ -5,7 +5,7 @@ Help()
     echo "\
 Usage: deb-manifest <arch[,...]> [-n, --native] [-a, --all] [-h, --help]
 
-cross build for android targets
+generate termux deb packages manifests 
 
 options:
   -n, --native    build natively with cargo (termux only)

@@ -7,9 +7,11 @@ test *FLAGS: build
 install: install-termux-deps
     cargo install --path .
 
+# Cross build for android targets
 cross-build +ARGS:
     scripts/cross-build.bash {{ARGS}}
 
+# Build termux deb packages
 deb +ARGS:
     scripts/deb.bash {{ARGS}}
 
@@ -22,6 +24,7 @@ deb-all:
 install-tool +ARGS:
     scripts/install-tool.bash {{ARGS}}
 
+# Fetch package version and print it
 fetch-version:
     just install-tool rust-script
     scripts/fetch-version.rs
@@ -29,6 +32,7 @@ fetch-version:
 install-termux-deps:
     pkg install termux-api at cronie
 
+# Generate termux deb packages manifests
 deb-manifest +ARGS:
     scripts/deb-manifest.bash {{ARGS}}
 
