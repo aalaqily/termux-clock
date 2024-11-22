@@ -9,7 +9,7 @@ build termux deb packages
 
 options:
   -n, --native    build for native target
-  -a, -all        build for all targets
+  -a, --all       build for all targets
   -h, --help      display this help message & exit
 
 available architectures:

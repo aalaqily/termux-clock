@@ -8,7 +8,7 @@ Usage: cross-build <arch[,...]> [-a, --all] [-h, --help]
 cross build for android targets
 
 options:
-  -a, -all      build for all targets
+  -a, --all     build for all targets
   -h, --help    display this help message & exit
 
 available architectures:

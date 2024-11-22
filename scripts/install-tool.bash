@@ -8,7 +8,7 @@ Usage: install-tool <tool[,...]> [-a, --all] [-h, --help]
 install required tools
 
 options:
-  -a, -all                 install all tools
+  -a, --all                 install all tools
   -h, --help               display this help message & exit
 
 available tools:
