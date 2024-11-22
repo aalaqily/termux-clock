@@ -91,14 +91,14 @@ fi
 
 ! [ -d deb/manifests ] && mkdir -p deb/manifests
 
-just install-tool jq
+just install-tool yq
 for arch in $archs; do
     if [ -z "${targets[$arch]}" ]; then
         echo "error: invalid architecture: $arch. skipping" >&2
         continue
     fi
     echo "Building deb manifest for arch: $arch"
-    jq ".control.Depends = \"$(echo $deps | sed 's/ /, /g')\"| .control.Architecture = \"${arch}\" |\
+    yq ".control.Depends = \"$(echo $deps | sed 's/ /, /g')\"| .control.Architecture = \"${arch}\" |\
     .data_files.\"bin/termux-clock\".source = \"target/$([[ "${targets[$arch]}" != "$NATIVE_TARGET" ]] && echo "${targets[$arch]}/")release/termux-clock\" |\
     .control.Version = \"`just fetch-version`\"" pkg.json > "deb/manifests/${arch}.json"
 done

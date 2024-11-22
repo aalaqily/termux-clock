@@ -11,6 +11,7 @@ install: install-termux-deps
 
 install-deb: deb-native
     apt install "./deb/packages/termux-clock_`just fetch-version`_{{ arch() }}.deb"
+
 # Cross build for android targets
 cross-build +ARGS:
     scripts/cross-build.bash {{ARGS}}
@@ -33,8 +34,7 @@ install-tool +ARGS:
 
 # Fetch package version and print it
 fetch-version:
-    just install-tool rust-script
-    scripts/fetch-version.rs
+    yq eval ".package.version" Cargo.toml
 
 install-termux-deps:
     pkg install $TERMUX_DEPS

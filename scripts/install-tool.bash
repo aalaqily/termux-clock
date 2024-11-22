@@ -21,8 +21,7 @@ available tools:
 declare -A install_commands
 install_commands["cross"]="cargo install cross --git https://github.com/cross-rs/cross"
 install_commands["termux-create-package"]="pip3 install git+https://github.com/termux/termux-create-package"
-install_commands["jq"]="sudo apt install jq"
-install_commands["rust-script"]="cargo install rust-script"
+install_commands["yq"]="sudo apt install yq"
 
 OPTIONS=$(getopt -o ah --long all,help -n "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
