@@ -21,7 +21,7 @@ options:
 source "`just common-file-path`"
 
 # Install required tool
-just install-tool yq
+just install-tool toml-cli
 
 OPTIONS=$(getopt -o MImipoh --long force-major,ignore-major,force-minor,ignore-minor,force-patch,print-only,help -n "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
@@ -108,7 +108,7 @@ fi
 git checkout -b release/v$new_version
 
 # Change version in Cargo.toml
-yq ".package.version = \"$new_version\"" Cargo.toml > Cargo.toml.tmp && mv Cargo.toml.tmp Cargo.toml
+toml set Cargo.toml package.version $new_version > Cargo.toml.tmp && mv Cargo.toml.tmp Cargo.toml
 
 # Execute cargo check to update version in Cargo.lock
 cargo check

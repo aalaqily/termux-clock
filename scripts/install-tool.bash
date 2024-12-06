@@ -14,7 +14,8 @@ options:
 available tools:
   cross                    for cross building for android targets
   termux-create-package    for creating termux deb packages
-  yq                       for generating termux deb packages manifests and reading version from Cargo.toml"
+  yq                       for generating termux deb packages manifests and reading version from Cargo.toml
+  toml-cli                 for setting version variable in Cargo.toml"
 }
 
 # All required tools
@@ -24,6 +25,7 @@ all_tools="cross termux-create-package yq"
 check_cross() { command -v cross > /dev/null; }
 check_termux-create-package() { command -v termux-create-package > /dev/null; }
 check_yq() { command -v yq > /dev/null && yq --version | grep -qE 'version v[4]'; }
+check_toml-cli() { command -v toml > /dev/null; }
 
 # Functions to install tools
 install_cross() { cargo install cross --git https://github.com/cross-rs/cross; }
@@ -34,6 +36,7 @@ install_yq() {
     ./install-man-page.sh
     rm install-man-page.sh yq.1
 }
+install_toml-cli() { cargo install toml-cli; }
 
 ### Executing part
 
