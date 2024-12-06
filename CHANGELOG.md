@@ -7,11 +7,17 @@ Versioning].
 [keep a changelog]: https://keepachangelog.com/
 [semantic versioning]: https://semver.org/
 
+## [v0.3.3] - 2024-12-6
+
+[v0.3.3]: https://github.com/iahmadgad/termux-clock/releases/v0.3.3
+
+A release to test new changes to build system
+
 ## [v0.3.2] - 2024-11-22
 
 [v0.3.2]: https://github.com/iahmadgad/termux-clock/releases/v0.3.2
 
-### CHANGED
+### Changed
 
 - New build system with just. ([2babc1c](https://github.com/iahmadgad/termux-clock/commit/00770102c2b9ab6bcfa6a82296bbaef3868b6360))
 - Updated CI workflows. ([0077010](https://github.com/iahmadgad/termux-clock/commit/2babc1cf956149ef081143cb23b977ebacf7cdab))
