@@ -131,7 +131,7 @@ git push --set-upstream origin release/v$new_version
 
 # Open release pull request
 echo -e "${BOLD}${CYAN}opening release pull request${NORMAL}"
-pr="$(gh pr create --title "release: $new_version" --fill --label release --assignee @me --head release/v$new_version --base main)"
+pr="$(gh pr create --title "release: v$new_version" --fill --label release --assignee @me --head release/v$new_version --base main)"
 
 # Merge opened pull request
 echo -e "${BOLD}${CYAN}merging opened pull request${NORMAL}"
