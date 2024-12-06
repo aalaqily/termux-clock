@@ -13,7 +13,7 @@ Versioning].
 
 ### Added
 
-- `--pm` option for termux alarms. (#25)
+- `--pm` option for alarms. (#25)
 
 ## [v0.3.3] - 2024-12-6
 
