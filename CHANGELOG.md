@@ -13,7 +13,7 @@ Versioning].
 
 ### Added
 
-- `--pm` option for alarms. ([#25](iahmadgad/termux-clock#25](https://github.com/iahmadgad/termux-clock/pull/25))
+- `--pm` option for alarms. ([#25](https://github.com/iahmadgad/termux-clock/pull/25))
 
 ## [v0.3.3] - 2024-12-6
 
