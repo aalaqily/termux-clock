@@ -42,6 +42,10 @@ fetch-version:
     just install-tool yq >&2
     yq eval ".package.version" Cargo.toml
 
+# Bump version, make release branch, push it, make release tag and push it (Release workflow will create a new release from tag)
+bump-version *ARGS:
+    scripts/bump-version.bash {{ ARGS }}
+
 # Install package dependencies with apt
 install-termux-deps:
     pkg install $TERMUX_DEPS
