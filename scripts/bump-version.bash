@@ -95,9 +95,9 @@ fi
 # Generate new version
 echo -e "${BOLD}${CYAN}generating new version${NORMAL}"
 if [ -n "$force_major" ] || ([ -n "$major" ] && ! ([ -n "$ignore_major" ] || [ -n "$force_minor" ] || [ -n "$force_patch" ])); then
-    new_version="$((current_major+1)).${current_minor}.${current_patch}"
+    new_version="$((current_major+1)).0.0"
 elif [ -n "$force_minor" ] || ([ -n "$minor" ] && ! ([ -n "$ignore_minor" ] || [ -n "$force_patch" ])); then
-    new_version="${current_major}.$((current_minor+1)).${current_patch}"
+    new_version="${current_major}.$((current_minor+1)).0"
 else
     new_version="${current_major}.${current_minor}.$((current_patch+1))"
 fi
