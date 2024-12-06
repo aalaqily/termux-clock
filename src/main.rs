@@ -49,6 +49,9 @@ enum Commands {
 
         #[arg(short, long)]
         termux: bool,
+
+	#[arg(long)]
+        pm: bool,
     },
 }
 
@@ -68,13 +71,20 @@ fn main() {
             timer.set();
         }
         Commands::Alarm {
-            hour,
+            mut hour,
             minutes,
             days,
             message,
             vibrate,
             termux,
+	    pm,
         } => {
+	    if let None = hour {
+		panic!("fatal: hour is required");
+	    }
+	    if pm {
+		hour = hour.map(|v| v + 12);
+	    }
             let alarm = Alarm::from(hour, minutes, days, message, vibrate, termux);
 
             alarm.set();
