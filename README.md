@@ -91,6 +91,7 @@ termux-clock timer -l 60 -t -m "Timer for 1 minute in Termux"
 | `-m, --message <MESSAGE>` | alarm message. |
 | `-v, --vibrate` | enable vibration. |
 | `-t, --termux` | set alarm in termux instead of android alarm clock. |
+| `--pm` | set alarm hour in pm instead of am. |
 ### Example
 ```sh
 termux-clock alarm -H 6 -M 30 -d 1,2,3 -v -m "Alarm at 06:30 am 🕡 every Sunday, Monday and Tuesday with vibration enabled 📳"
