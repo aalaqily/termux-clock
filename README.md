@@ -53,9 +53,9 @@ cargo install just
 ```
 Other tools (except bash) will be installed automatically during build process, or when you use `install-tool` recipe.
 
-`install-tool` recipe is expected to run on Debian-based distros. if you are using a non-Debian-based distro or termux, it is advisable to install them manually.
+The `install-tool` recipe is designed to run on an AMD64 Linux machine. If your system does not meet these requirements, it is recommended to install the tools manually.
 
-# Just recipes
+## Just recipes
 List recipes in `justfile`:
 ```sh
 just --list
