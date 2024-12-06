@@ -13,7 +13,7 @@ Versioning].
 
 ### Added
 
-- `--pm` option for alarms. (#25)
+- `--pm` option for alarms. ([#25](iahmadgad/termux-clock#25](https://github.com/iahmadgad/termux-clock/pull/25))
 
 ## [v0.3.3] - 2024-12-6
 
@@ -36,7 +36,7 @@ A release to test new changes to build system
 
 ### Fixed
 
-- Added missing dependency `cronie` in deb packages. (#21)
+- Added missing dependency `cronie` in deb packages. ([#21](https://github.com/iahmadgad/termux-clock/pull/21))
 
 ## [v0.3.0] - 2024-11-15
 
