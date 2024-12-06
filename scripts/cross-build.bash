@@ -18,7 +18,11 @@ available architectures:
   i686     =>  i686-linux-android       32-bit x86"
 }
 
+# Source common file
 source "`just common-file-path`"
+
+# Install required tool
+just install-tool cross
 
 OPTIONS=$(getopt -o ah --long all,help -n "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
@@ -64,7 +68,6 @@ if [ -z "$archs" ]; then
     exit 1
 fi
 
-just install-tool cross
 for arch in $archs; do
     if [ -z "${targets[$arch]}" ]; then
 	echo "error: invalid architecture: $arch. skipping" >&2

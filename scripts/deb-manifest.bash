@@ -20,7 +20,11 @@ available architectures:
   i686     =>  i686-linux-android       32-bit x86"
 }
 
+# Source common file
 source "`just common-file-path`"
+
+# Install required tool
+just install-tool yq
 
 OPTIONS=$(getopt -o nad:h --long native,all,deps:,help -n "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
@@ -91,7 +95,6 @@ fi
 
 ! [ -d deb/manifests ] && mkdir -p deb/manifests
 
-just install-tool yq
 for arch in $archs; do
     if [ -z "${targets[$arch]}" ]; then
         echo "error: invalid architecture: $arch. skipping" >&2

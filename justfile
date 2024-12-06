@@ -39,6 +39,7 @@ install-tool +ARGS:
 
 # Fetch package version and print it
 fetch-version:
+    just install-tool yq >&2
     yq eval ".package.version" Cargo.toml
 
 # Install package dependencies with apt
@@ -51,7 +52,7 @@ deb-manifest +ARGS:
 
 # Path to scripts/common.bash file
 common-file-path:
-    echo "`realpath scripts/common.bash`"
+    @echo "`realpath scripts/common.bash`"
 
 # Clean cache
 mod clean 'justmodules/clean.just'

@@ -19,7 +19,11 @@ available architectures:
   i686     =>  i686-linux-android       32-bit x86"
 }
 
+# Source common file
 source "`just common-file-path`"
+
+# Install reuired tool
+just install-tool termux-create-package
 
 OPTIONS=$(getopt -o nah --long native,all,help -n "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
@@ -84,7 +88,6 @@ if [ -z "$archs" ]; then
     exit 1
 fi
 
-just install-tool termux-create-package
 for arch in $archs; do
     if [[ "${targets[$arch]}" == "$NATIVE_TARGET" ]]; then
 	just build --release
