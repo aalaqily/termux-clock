@@ -19,7 +19,7 @@ available tools:
 }
 
 # All required tools
-all_tools="cross termux-create-package yq"
+all_tools="cross termux-create-package yq toml-cli"
 
 # Functions to check for tools if installed with required versions
 check_cross() { command -v cross > /dev/null; }
