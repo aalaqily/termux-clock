@@ -121,7 +121,7 @@ git commit -m "chore: bump version to $new_version"
 git push --set-upstream origin release/v$new_version
 
 # Open release pull request
-pr="$(gh pr create --title "release: $new_version" --label release --assignee @me -B main)"
+pr="$(gh pr create --title "release: $new_version" --fill --label release --assignee @me -B main)"
 
 # Merge opened pull request
 gh pr merge $pr --merge
