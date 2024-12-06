@@ -7,6 +7,14 @@ Versioning].
 [keep a changelog]: https://keepachangelog.com/
 [semantic versioning]: https://semver.org/
 
+## [v0.4.0] - 2024-12-6
+
+[v0.4.0]: https://github.com/iahmadgad/termux-clock/releases/v0.4.0
+
+### Added
+
+- `--pm` option for termux alarms. (#25)
+
 ## [v0.3.3] - 2024-12-6
 
 [v0.3.3]: https://github.com/iahmadgad/termux-clock/releases/v0.3.3
