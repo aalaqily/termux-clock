@@ -76,20 +76,24 @@ while true; do
 done
 
 # Parse current version
+echo -e "${BOLD}${CYAN}parsing current version${NORMAL}"
 current_version="`just fetch-version`"
 IFS="." read -r current_major current_minor current_patch <<< "$current_version"
 
 # Check for Breaking changes
+echo -e "${BOLD}${CYAN}checking for breaking changes${NORMAL}"
 if (git log v$current_version..HEAD --pretty=format:"%b" | grep -q "BREAKING CHANGE:"); then
     major=true
 fi
 
 # Check for new features
+echo -e "${BOLD}${CYAN}checking for new features${NORMAL}"
 if (git log v$current_version..HEAD --pretty=format:"%s" | grep -qE "feat\(?[^)]*\)?:"); then
     minor=true
 fi
 
 # Generate new version
+echo -e "${BOLD}${CYAN}generating new version${NORMAL}"
 if [ -n "$force_major" ] || ([ -n "$major" ] && ! ([ -n "$ignore_major" ] || [ -n "$force_minor" ] || [ -n "$force_patch" ])); then
     new_version="$((current_major+1)).${current_minor}.${current_patch}"
 elif [ -n "$force_minor" ] || ([ -n "$minor" ] && ! ([ -n "$ignore_minor" ] || [ -n "$force_patch" ])); then
@@ -105,31 +109,40 @@ if [ -n "$print_only" ]; then
 fi
 
 # Make a release branch
+echo -e "${BOLD}${CYAN}making a release branch${NORMAL}"
 git checkout -b release/v$new_version
 
 # Change version in Cargo.toml
+echo -e "${BOLD}${CYAN}changing version in Cargo.toml${NORMAL}"
 toml set Cargo.toml package.version $new_version > Cargo.toml.tmp && mv Cargo.toml.tmp Cargo.toml
 
 # Execute cargo check to update version in Cargo.lock
+echo -e "${BOLD}${CYAN}executing cargo check to update version in Cargo.lock${NORMAL}"
 cargo check
 
 # Commit changes
+echo -e "${BOLD}${CYAN}commiting changes${NORMAL}"
 git add Cargo.toml Cargo.lock
 git commit -m "chore: bump version to $new_version"
 
 # Push branch into remote repo
+echo -e "${BOLD}${CYAN}pushing branch into remote repo${NORMAL}"
 git push --set-upstream origin release/v$new_version
 
 # Open release pull request
-pr="$(gh pr create --title "release: $new_version" --fill --label release --assignee @me -B main)"
+echo -e "${BOLD}${CYAN}opening release pull request${NORMAL}"
+pr="$(gh pr create --title "release: $new_version" --fill --label release --assignee @me --head release/v$new_version --base main)"
 
 # Merge opened pull request
+echo -e "${BOLD}${CYAN}merging opened pull request${NORMAL}"
 gh pr merge $pr --merge
 
 # Checkout main branch and pull merge commit
+echo -e "${BOLD}${CYAN}checking out main branch and pulling merge commit${NORMAL}"
 git checkout main
 git pull
 
 # Tag latest commit and push tag
+echo -e "${BOLD}${CYAN}tagging latest commit and push tag${NORMAL}"
 git tag -a v$new_version -m v$new_version
 git push --tags
