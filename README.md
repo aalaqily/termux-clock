@@ -19,7 +19,7 @@ Termux tool to set alarms & timers headlessly.
 > both 2 methods install `termux-api` package not the Android app, which needs to be installed manually.
 > Read [Installation](https://github.com/termux/termux-api?tab=readme-ov-file#installation) on `termux/termux-api` repo to know how to install the Android app.
 ## Pre-built Termux packages
-- Navigate to [GitHub Releases](https://github.com/iahmadgad/termux-clock/releases), and choose package with your desired version & phone architecture.
+- Navigate to [GitHub Releases](https://github.com/iahmadgad/termux-clock/releases), and choose package with your desired version & phone architecture (run `uname -m` in termux to know your phone's architecture).
 - copy deb file url & download it using `wget` or `curl`.
 - Install the downloaded package with `apt`:
 ```sh
