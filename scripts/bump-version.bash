@@ -3,7 +3,7 @@
 Help()
 {
     echo "\
-Usage: bump-version [[-M, --force-major | -I, --ignore-major] | [-m, --force-minor | -i, --ignore-minor ] | -p, --force-patch] [-p, --print-only] [-h, --help]
+Usage: bump-version [[-M, --force-major | -I, --ignore-major] | [-m, --force-minor | -i, --ignore-minor ] | -p, --force-patch] [-o, --print-only] [-h, --help]
 
 bump version, make release branch, push it, make release tag and push it (Release workflow will create a new release from tag)
 
