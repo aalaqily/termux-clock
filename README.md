@@ -87,7 +87,7 @@ termux-clock timer -l 60 -t -m "Timer for 1 minute in Termux"
 | ------ | ----------- |
 | `-H, --hours <HOURS>` | alarm hour. |
 | `-M, --minutes <MINUTES>` | alarm extra minutes. |
-| `-d, --days <DAYS>` | days to recurr the alarm, denoted by comma-seperated numbers, e. g. `1,2,3`, where each number corresponds to a weekday, starting from Sunday in android alarms, or Monday in termux alarms. |
+| `-d, --days <DAYS>` | days to recurr the alarm, denoted by comma-seperated numbers, e. g. `1,2,3`, where each number corresponds to a weekday, starting from sunday (i. e. sunday is `1`, monday is `2` and so on and so forth). |
 | `-m, --message <MESSAGE>` | alarm message. |
 | `-v, --vibrate` | enable vibration. |
 | `-t, --termux` | set alarm in termux instead of android alarm clock. |

@@ -70,10 +70,13 @@ impl Alarm {
         self
     }
 
-    pub fn set(self) {
+    pub fn set(mut self) {
         let mut command = if self.termux {
             match self.days {
-                Some(_) => cron::schedule_alarm_command(self),
+                Some(d) => {
+		    self.days = Some(d.iter().map(|x| x - 1 ).collect());
+		    cron::schedule_alarm_command(self)
+		},
                 None => at::schedule_alarm_command(self),
             }
         } else {
