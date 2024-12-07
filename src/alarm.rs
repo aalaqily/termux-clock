@@ -1,3 +1,5 @@
+use std::process::Command;
+
 use crate::wrappers::{am, at, cron};
 
 #[derive(Clone, Debug, PartialEq)]
@@ -74,10 +76,28 @@ impl Alarm {
         let mut command = if self.termux {
             match self.days {
                 Some(d) => {
+		    let check_crond = Command::new("sh")
+			.args(["-c",
+			       r#"ps -ef | grep -E "[0-9] crond""#])
+			.status()
+			.expect("Failed to check if crond is running");
+		    if !check_crond.success() {
+			Command.new("crond").output();
+		    }
 		    self.days = Some(d.iter().map(|x| x - 1 ).collect());
 		    cron::schedule_alarm_command(self)
 		},
-                None => at::schedule_alarm_command(self),
+                None => {
+		    let check_crond = Command::new("sh")
+			.args(["-c",
+			       r#"ps -ef | grep -E "[0-9] atd""#])
+			.status()
+			.expect("Failed to check if atd is running");
+		    if !check_crond.success() {
+			Command.new("atd").output();
+		    }
+		    at::schedule_alarm_command(self)
+		},
             }
         } else {
             am::set_alarm_command(self)
