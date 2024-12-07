@@ -82,7 +82,7 @@ impl Alarm {
 			.status()
 			.expect("Failed to check if crond is running");
 		    if !check_crond.success() {
-			Command.new("crond").output();
+			Command::new("crond").output();
 		    }
 		    self.days = Some(d.iter().map(|x| x - 1 ).collect());
 		    cron::schedule_alarm_command(self)
@@ -94,7 +94,7 @@ impl Alarm {
 			.status()
 			.expect("Failed to check if atd is running");
 		    if !check_crond.success() {
-			Command.new("atd").output();
+			Command::new("atd").output();
 		    }
 		    at::schedule_alarm_command(self)
 		},
