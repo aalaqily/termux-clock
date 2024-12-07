@@ -2,12 +2,12 @@ name: Rust CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" , "dev" ]
     paths-ignore:
       - "*.md"
       - "LICENSE"
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
     paths-ignore:
       - "*.md"
       - "LICENSE"
