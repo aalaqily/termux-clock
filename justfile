@@ -23,15 +23,15 @@ cross-build-all:
     dev/cross-build --all
 
 # Build termux deb packages. Built packages are stored in: `target/deb/packages/`
-deb +ARGS:
+deb +ARGS: man-gz
     dev/deb {{ARGS}}
 
 # Build termux deb package for native target (in case you are using Termux). Equivalent to: `deb --native`
-deb-native:
+deb-native: man-gz
     dev/deb --native
 
 # Build termux deb packages for all targets. Equivalent to: `deb --all`
-deb-all:
+deb-all: man-gz
     dev/deb --all
 
 # Install tool/s used in build process
@@ -62,6 +62,10 @@ common-file-path:
 # Build manpages. Equivalent to: `cargo build-man`
 man:
     cargo build-man
+
+# Build manpages compressed in gz format
+man-gz: man
+    gzip target/manpages/* -k
 
 # Clean cache
 mod clean 'justmodules/clean.just'

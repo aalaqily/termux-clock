@@ -14,6 +14,15 @@
     },
     "doc/termux-clock/LICENSE": {
       "source": "LICENSE"
+    },
+    "share/man/man1/termux-clock.1.gz": {
+      "source": "target/manpages/termux-clock.1.gz" 
+    }
+    "share/man/man1/termux-clock-timer.1.gz": {
+      "source": "target/manpages/termux-clock-timer.1.gz" 
+    }
+    "share/man/man1/termux-clock-alarm.1.gz": {
+      "source": "target/manpages/termux-clock-alarm.1.gz" 
     }
   },
   "deb_dir": "target/deb/packages"
