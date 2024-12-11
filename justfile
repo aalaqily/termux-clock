@@ -59,5 +59,9 @@ deb-manifest +ARGS:
 common-file-path:
     @echo "`realpath dev/common.bash`"
 
+# Build manpages. Equivalent to: `cargo build-man`
+man:
+    cargo build-man
+
 # Clean cache
 mod clean 'justmodules/clean.just'
