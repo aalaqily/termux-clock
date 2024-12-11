@@ -5,6 +5,7 @@ build *FLAGS:
 
 test *FLAGS: build
     cargo test {{FLAGS}}
+
 # Install as crate with cargo, installed binary will be stored in: `~/.cargo/bin/`
 install: install-termux-deps
     cargo install --path .
@@ -15,27 +16,27 @@ install-deb: deb-native
 
 # Cross build for android targets
 cross-build +ARGS:
-    scripts/cross-build.bash {{ARGS}}
+    dev/cross-build {{ARGS}}
 
 # Cross build for all valid android targets. equivalent to: `cross-build --all`
 cross-build-all:
-    scripts/cross-build.bash --all
+    dev/cross-build --all
 
 # Build termux deb packages. Built packages are stored in: `deb/packages/`
 deb +ARGS:
-    scripts/deb.bash {{ARGS}}
+    dev/deb {{ARGS}}
 
 # Build termux deb package for native target (in case you are using Termux). Equivalent to: `deb --native`
 deb-native:
-    scripts/deb.bash --native
+    dev/deb --native
 
 # Build termux deb packages for all targets. Equivalent to: `deb --all`
 deb-all:
-    scripts/deb.bash --all
+    dev/deb --all
 
 # Install tool/s used in build process
 install-tool +ARGS:
-    scripts/install-tool.bash {{ARGS}}
+    dev/install-tool {{ARGS}}
 
 # Fetch package version and print it
 fetch-version:
@@ -44,7 +45,7 @@ fetch-version:
 
 # Bump version, make release branch, push it, make release tag and push it (Release workflow will create a new release from tag)
 bump-version *ARGS:
-    scripts/bump-version.bash {{ ARGS }}
+    dev/bump-version {{ ARGS }}
 
 # Install package dependencies with apt
 install-termux-deps:
@@ -52,11 +53,11 @@ install-termux-deps:
 
 # Generate termux deb packages manifests. Generated manifests are stored in: `deb/manifests/`
 deb-manifest +ARGS:
-    scripts/deb-manifest.bash {{ARGS}} --deps "$TERMUX_DEPS"
+    dev/deb-manifest {{ARGS}} --deps "$TERMUX_DEPS"
 
 # Path to scripts/common.bash file
 common-file-path:
-    @echo "`realpath scripts/common.bash`"
+    @echo "`realpath dev/common.bash`"
 
 # Clean cache
 mod clean 'justmodules/clean.just'
