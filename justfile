@@ -12,7 +12,7 @@ install: install-termux-deps
 
 # Install as termux deb package with apt, installed binary will be stored in: `/data/data/com.termux/files/usr/bin/`
 install-deb: deb-native
-    apt install "./deb/packages/termux-clock_`just fetch-version`_{{ arch() }}.deb"
+    apt install "./target/deb/packages/termux-clock_`just fetch-version`_{{ arch() }}.deb"
 
 # Cross build for android targets
 cross-build +ARGS:
@@ -22,7 +22,7 @@ cross-build +ARGS:
 cross-build-all:
     dev/cross-build --all
 
-# Build termux deb packages. Built packages are stored in: `deb/packages/`
+# Build termux deb packages. Built packages are stored in: `target/deb/packages/`
 deb +ARGS:
     dev/deb {{ARGS}}
 
@@ -51,7 +51,7 @@ bump-version *ARGS:
 install-termux-deps:
     pkg install $TERMUX_DEPS
 
-# Generate termux deb packages manifests. Generated manifests are stored in: `deb/manifests/`
+# Generate termux deb packages manifests. Generated manifests are stored in: `target/deb/manifests/`
 deb-manifest +ARGS:
     dev/deb-manifest {{ARGS}} --deps "$TERMUX_DEPS"
 

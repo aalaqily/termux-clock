@@ -16,5 +16,5 @@
       "source": "LICENSE"
     }
   },
-  "deb_dir": "deb/packages"
+  "deb_dir": "target/deb/packages"
 }
