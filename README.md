@@ -60,9 +60,9 @@ List recipes in `justfile`:
 ```sh
 just --list
 ```
-List recipes in another file:
+List recipes in module:
 ```sh
-just --list path/to/file
+just --list <module>
 ```
 Just recipes are located in `justfile` and `justmodules` directory.
 

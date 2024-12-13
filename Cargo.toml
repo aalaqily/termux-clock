@@ -5,3 +5,6 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.5.20", features = ["derive"]}
+
+[workspace]                                                            
+members = ["dev/xtask-build-man"]

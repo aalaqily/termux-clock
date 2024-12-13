@@ -96,5 +96,5 @@ for arch in $archs; do
     fi
     just deb-manifest $arch
     echo "Building termux deb package for architecture: $arch..."
-    termux-create-package "deb/manifests/${arch}.json"
+    termux-create-package "target/deb/manifests/${arch}.json"
 done
