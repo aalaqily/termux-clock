@@ -14,15 +14,15 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
+          ref: dev
           fetch-depth: 0  # Fetch full history, including tags
 
       - name: Sync dev with main
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git checkout -- dev
           git merge main
-          git push -u origin -- dev
+          git push -u origin dev
         
   gitlab-mirror:
     name: Sync GitLab Mirror
@@ -34,17 +34,17 @@ jobs:
         with:
           fetch-depth: 0  # Fetch full history, including tags
         
-      - name: Mirror to GitLab
+      - name: Push to GitLab mirror
         env:
-          GITLAB_URL: gitlab.com/iahmagad/termux-clock.git
+          GITLAB_URL: gitlab.com/iahmadgad/termux-clock.git
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git remote add gitlab "$GITLAB_URL"
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Push main and dev branches
-          git push https://oauth2:$GITLAB_TOKEN@$GITLAB_URL main
+          # Push main branch
+          git push https://oauth2:$GITLAB_TOKEN@$GITLAB_URL main --force
 
           # Push tags associated with these branches
           git push https://oauth2:$GITLAB_TOKEN@$GITLAB_URL --tags
