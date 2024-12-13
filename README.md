@@ -60,13 +60,34 @@ List recipes in `justfile`:
 ```sh
 just --list
 ```
-List recipes in another file:
+List recipes in module:
 ```sh
-just --list path/to/file
+just --list <module>
 ```
 Just recipes are located in `justfile` and `justmodules` directory.
 
 If you don't know just recipes read [just documentation](https://just.systems/man/en/).
+
+# Manpages
+Deb packages comes with manpages for `termux-clock`, `termux-clock timer` and `termux-clock alarm`
+
+You can read them by running:
+```sh
+man termux-clock
+man termux-clock-timer
+man termux-clock-alarm
+```
+
+You can also build these deb packages from source with `man` recipe:
+```sh
+just man
+```
+Or with `build-man` [xtask](https://github.com/matklad/cargo-xtask) (but insure you are in the project root directory):
+```sh
+cargo build-man
+```
+
+Generated manpages are located in: `target/manpages`
 
 # Usage
 ## `timer`
@@ -87,7 +108,7 @@ termux-clock timer -l 60 -t -m "Timer for 1 minute in Termux"
 | ------ | ----------- |
 | `-H, --hours <HOURS>` | alarm hour. |
 | `-M, --minutes <MINUTES>` | alarm extra minutes. |
-| `-d, --days <DAYS>` | days to recurr the alarm, denoted by comma-seperated numbers, e. g. `1,2,3`, where each number corresponds to a weekday, starting from sunday (i. e. sunday is `1`, monday is `2` and so on and so forth). |
+| `-d, --days <DAYS>` | days to recurr the alarm, denoted by comma-seperated numbers (e. g. `1,2,3`), where each number corresponds to a weekday, starting from sunday (i. e. sunday is `1`, monday is `2` and so on and so forth). |
 | `-m, --message <MESSAGE>` | alarm message. |
 | `-v, --vibrate` | enable vibration. |
 | `-t, --termux` | set alarm in termux instead of android alarm clock. |

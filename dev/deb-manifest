@@ -93,7 +93,7 @@ if [ -z "$archs" ]; then
     exit 1
 fi
 
-! [ -d deb/manifests ] && mkdir -p deb/manifests
+! [ -d target/deb/manifests ] && mkdir -p target/deb/manifests
 
 for arch in $archs; do
     if [ -z "${targets[$arch]}" ]; then
@@ -103,5 +103,5 @@ for arch in $archs; do
     echo "Building deb manifest for arch: $arch"
     yq ".control.Depends = \"$(echo $deps | sed 's/ /, /g')\"| .control.Architecture = \"${arch}\" |\
     .data_files.\"bin/termux-clock\".source = \"target/$([[ "${targets[$arch]}" != "$NATIVE_TARGET" ]] && echo "${targets[$arch]}/")release/termux-clock\" |\
-    .control.Version = \"`just fetch-version`\"" pkg.json > "deb/manifests/${arch}.json"
+    .control.Version = \"`just fetch-version`\"" pkg.json > "target/deb/manifests/${arch}.json"
 done
