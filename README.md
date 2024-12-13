@@ -78,7 +78,7 @@ man termux-clock-timer
 man termux-clock-alarm
 ```
 
-You can also build these deb packages from source with `man` recipe:
+You can also build these manpages from source with `man` recipe:
 ```sh
 just man
 ```
