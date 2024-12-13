@@ -82,7 +82,7 @@ You can also build these manpages from source with `man` recipe:
 ```sh
 just man
 ```
-Or with `build-man` [xtask](https://github.com/matklad/cargo-xtask) (but insure you are in the project root directory):
+Or with `build-man` [xtask](https://github.com/matklad/cargo-xtask) (but ensure you are in the project root directory):
 ```sh
 cargo build-man
 ```
