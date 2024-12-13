@@ -7,6 +7,22 @@ Versioning].
 [keep a changelog]: https://keepachangelog.com/
 [semantic versioning]: https://semver.org/
 
+## [v0.5.0] - 2024-12-13
+
+[v0.5.0]: https://github.com/iahmadgad/termux-clock/releases/v0.5.0
+
+### Added
+
+- Included manpgaes in deb packages. ([#30](https://github.com/iahmadgad/termux-clock/pull/30))
+
+### Fixed
+
+- Start `crond` and `atd` daemons when needed. ([#28](https://github.com/iahmadgad/termux-clock/pull/28))
+
+### Changed
+
+- Days start from sunday in both termux and android alarms. ([#27](https://github.com/iahmadgad/termux-clock/pull/27))
+
 ## [v0.4.0] - 2024-12-6
 
 [v0.4.0]: https://github.com/iahmadgad/termux-clock/releases/v0.4.0
