@@ -1,5 +1,6 @@
 # Termux Clock
 [![WIP](https://img.shields.io/badge/%F0%9F%9B%A0-WIP-cyan)](#)
+[![GitLab: mirror](https://img.shields.io/badge/GitLab-mirror-blue?labelColor=black&logo=gitlab)](https://gitlab.com/iahmadgad/termux-clock)
 [![Rust CI workflow](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/rust.yml?label=Rust%20CI&logo=rust)](https://github.com/iahmadgad/termux-clock/actions/workflows/rust.yml)
 [![Release workflow](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/release.yml?label=Release&logo=github)](https://github.com/iahmadgad/termux-clock/actions/workflows/release.yml)
 [![Lines of code](https://tokei.rs/b1/github/iahmadgad/termux-clock?category=code&label=Lines%20of%20code&style=flat)](#)
@@ -91,17 +92,17 @@ Generated manpages are located in: `target/manpages`
 
 # Usage
 ## `timer`
-| Option | Description | Notes |
-| ------ | ----------- | ----- |
-| `-H, --hours <HOURS>` | add hours to timer length. | - |
-| `-M, --minutes <MINUTES>` | add minutes to timer length. | - |
-| `-S, --seconds <SECONDS>` | add seconds to timer length. | - |
-| `-m, --message <MESSAGE>` | timer message. | - |
-| `-v, --vibrate` | enable vibration. | not available in android timers, so use it with `--termux` option. |
-| `-t, --termux` | set timer in termux instead of android alarm clock. | - |
+| Option | Description |
+| ------ | ----------- |
+| `-H, --hours <HOURS>` | add hours to timer length. |
+| `-M, --minutes <MINUTES>` | add minutes to timer length. |
+| `-S, --seconds <SECONDS>` | add seconds to timer length. |
+| `-m, --message <MESSAGE>` | timer message. |
+| `-v, --vibrate` | enable vibration. _(not available in android timers, so use it with `--termux` option)_. |
+| `-t, --termux` | set timer in termux instead of android alarm clock. |
 ### Example
 ```sh
-termux-clock timer -l 60 -t -m "Timer for 1 minute in Termux"
+termux-clock timer -M 1 -S 30 -t -m "Timer for 1 minute and 30 seconds in Termux"
 ```
 ## `alarm`
 | Option | Description |
