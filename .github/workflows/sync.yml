@@ -2,7 +2,7 @@ name: Sync
 
 on:
   push:
-    branches: [ "main" , "dev" ]
+    branches: [ "main" ]
     tags: [ "*.v" ]
 
 jobs:
@@ -20,9 +20,9 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git checkout dev
+          git checkout -- dev
           git merge main
-          git push origin/dev
+          git push -u origin -- dev
         
   gitlab-mirror:
     name: Sync GitLab Mirror
@@ -34,7 +34,7 @@ jobs:
         with:
           fetch-depth: 0  # Fetch full history, including tags
         
-      - name: Mirror to GitLab (main and dev branches with tags)
+      - name: Mirror to GitLab
         env:
           GITLAB_URL: gitlab.com/iahmagad/termux-clock.git
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
           git config --global user.email "actions@github.com"
 
           # Push main and dev branches
-          git push https://oauth2:$GITLAB_TOKEN@$GITLAB_URL main dev
+          git push https://oauth2:$GITLAB_TOKEN@$GITLAB_URL main
 
           # Push tags associated with these branches
           git push https://oauth2:$GITLAB_TOKEN@$GITLAB_URL --tags
