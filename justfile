@@ -67,5 +67,9 @@ man:
 man-gz: man
     gzip target/manpages/* -k
 
+# List unignored files using tree
+tree:
+    tree --gitignore
+
 # Clean cache
 mod clean 'justmodules/clean.just'
