@@ -42,6 +42,7 @@ jobs:
         run: echo "version=`just fetch-version`" >> "$GITHUB_ENV"
 
       - name: Build
+        shell: bash
         run: just deb ${{ matrix.job.arch }}
         
       - name: Upload Termux deb package artifact
