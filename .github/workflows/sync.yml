@@ -36,7 +36,7 @@ jobs:
         
       - name: Push to GitLab mirror
         env:
-          GITLAB_URL: gitlab.com/iahmadgad/termux-clock.git
+          GITLAB_URL: gitlab.com/aalaqily/termux-clock.git
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git remote add gitlab "$GITLAB_URL"
