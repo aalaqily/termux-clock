@@ -1,12 +1,12 @@
 # Termux Clock
 [![WIP](https://img.shields.io/badge/%F0%9F%9B%A0-WIP-cyan)](#)
-[![GitLab: mirror](https://img.shields.io/badge/GitLab-mirror-blue?labelColor=black&logo=gitlab)](https://gitlab.com/iahmadgad/termux-clock)
-[![Rust CI workflow](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/rust.yml?label=Rust%20CI&logo=rust)](https://github.com/iahmadgad/termux-clock/actions/workflows/rust.yml)
-[![Release workflow](https://img.shields.io/github/actions/workflow/status/iahmadgad/termux-clock/release.yml?label=Release&logo=github)](https://github.com/iahmadgad/termux-clock/actions/workflows/release.yml)
-[![Lines of code](https://tokei.rs/b1/github/iahmadgad/termux-clock?category=code&label=Lines%20of%20code&style=flat)](#)
-[![Latest Tag](https://img.shields.io/github/v/tag/iahmadgad/termux-clock?label=Latest%20tag&sort=semver)](https://github.com/iahmadgad/termux-clock/tags)
-[![Downloads](https://img.shields.io/github/downloads/iahmadgad/termux-clock/total?label=Downloads%20(GH))](https://github.com/iahmadgad/termux-clock/releases)
-[![PRs: welcome](https://img.shields.io/badge/PRs-welcome-lemon)](https://github.com/iahmadgad/termux-clock/fork)
+[![GitLab: mirror](https://img.shields.io/badge/GitLab-mirror-blue?labelColor=black&logo=gitlab)](https://gitlab.com/aalaqily/termux-clock)
+[![Rust CI workflow](https://img.shields.io/github/actions/workflow/status/aalaqily/termux-clock/rust.yml?label=Rust%20CI&logo=rust)](https://github.com/aalaqily/termux-clock/actions/workflows/rust.yml)
+[![Release workflow](https://img.shields.io/github/actions/workflow/status/aalaqily/termux-clock/release.yml?label=Release&logo=github)](https://github.com/aalaqily/termux-clock/actions/workflows/release.yml)
+[![Lines of code](https://tokei.rs/b1/github/aalaqily/termux-clock?category=code&label=Lines%20of%20code&style=flat)](#)
+[![Latest Tag](https://img.shields.io/github/v/tag/aalaqily/termux-clock?label=Latest%20tag&sort=semver)](https://github.com/aalaqily/termux-clock/tags)
+[![Downloads](https://img.shields.io/github/downloads/aalaqily/termux-clock/total?label=Downloads%20(GH))](https://github.com/aalaqily/termux-clock/releases)
+[![PRs: welcome](https://img.shields.io/badge/PRs-welcome-lemon)](https://github.com/aalaqily/termux-clock/fork)
 
 Termux tool to set alarms & timers headlessly.
 
@@ -20,7 +20,7 @@ Termux tool to set alarms & timers headlessly.
 > both 2 methods install `termux-api` package not the Android app, which needs to be installed manually.
 > Read [Installation](https://github.com/termux/termux-api?tab=readme-ov-file#installation) on `termux/termux-api` repo to know how to install the Android app.
 ## Pre-built Termux packages
-- Navigate to [GitHub Releases](https://github.com/iahmadgad/termux-clock/releases), and choose package with your desired version & phone architecture (run `uname -m` in termux to know your phone's architecture).
+- Navigate to [GitHub Releases](https://github.com/aalaqily/termux-clock/releases), and choose package with your desired version & phone architecture (run `uname -m` in termux to know your phone's architecture).
 - copy deb file url & download it using `wget` or `curl`.
 - Install the downloaded package with `apt`:
 ```sh
@@ -33,11 +33,11 @@ pkg install termux-api at cronie
 ```
 - Compile and install from the latest commit on `main` branch:
 ```sh
-cargo install --force --git https://github.com/iahmadgad/termux-clock
+cargo install --force --git https://github.com/aalaqily/termux-clock
 ```
 - Or from tag (recommended):
 ```sh
-cargo install --force --git https://github.com/iahmadgad/termux-clock --tag <tag>
+cargo install --force --git https://github.com/aalaqily/termux-clock --tag <tag>
 ```
 See [`cargo-install(1)`](https://doc.rust-lang.org/cargo/commands/cargo-install.html) for more `cargo install` options.
 # Development
@@ -107,7 +107,7 @@ termux-clock timer -M 1 -S 30 -t -m "Timer for 1 minute and 30 seconds in Termux
 ## `alarm`
 | Option | Description |
 | ------ | ----------- |
-| `-H, --hours <HOURS>` | alarm hour. |
+| `-H, --hour <HOUR>` | alarm hour. |
 | `-M, --minutes <MINUTES>` | alarm extra minutes. |
 | `-d, --days <DAYS>` | days to recurr the alarm, denoted by comma-seperated numbers (e. g. `1,2,3`), where each number corresponds to a weekday, starting from sunday (i. e. sunday is `1`, monday is `2` and so on and so forth). |
 | `-m, --message <MESSAGE>` | alarm message. |
