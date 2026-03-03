@@ -1,11 +1,14 @@
 # Use the latest Arch Linux base image
 FROM archlinux:latest
 
-# Update system and install base-devel group
-RUN pacman -Syu --noconfirm
+# Initialize pacman keys and update system with base-devel group
+RUN pacman-key --init && \
+    pacman-key --populate archlinux && \
+    pacman -Syu --noconfirm base-devel git openssh python python-pip cross just yq && \
+    ssh-keygen -A
 
-# Install other necessary packages
-RUN pacman -S --noconfirm git python python-pip cross base-devel just yq
+# Enable and start SSH
+RUN systemctl enable sshd
 
 # Install rust toolchain
 RUN rustup default stable
@@ -16,8 +19,5 @@ RUN cargo install ctoml -f
 # Make Python venv
 RUN python -m venv .python
 
-# Activate Python venv
-RUN source .python/bin/activate
-
 # Install termux-create-package
-RUN pip3 install git+https://github.com/termux/termux-create-package
+RUN .python/bin/pip install git+https://github.com/termux/termux-create-package

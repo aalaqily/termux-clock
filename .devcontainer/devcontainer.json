@@ -5,11 +5,6 @@
     },
     "settings": {},
     "extensions": [],
-    "postCreateCommand": "echo 'Environment ready!'",
-    "features": {
-        "ghcr.io/devcontainers/features/sshd:1": {
-            "version": "latest"
-        }
-    }
+    "postCreateCommand": "echo 'Environment ready!'"
 
 }
