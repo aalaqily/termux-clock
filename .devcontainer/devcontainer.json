@@ -1,9 +1,15 @@
 {
-  "name": "Arch Linux Codespace",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "settings": {},
-  "extensions": [],
-  "postCreateCommand": "echo 'Environment ready!'"
+    "name": "Arch Linux Codespace",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "settings": {},
+    "extensions": [],
+    "postCreateCommand": "echo 'Environment ready!'",
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        }
+    }
+
 }
