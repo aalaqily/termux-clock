@@ -32,30 +32,9 @@ jobs:
       - name: Cache dependencies and binaries
         uses: Swatinem/rust-cache@v2
 
-      - name: Install development tools
-        uses: taiki-e/install-action@v2.68.21
-        with:
-          tool: just
-
-      - name: Install cross
+      - name: Build
         shell: bash
-        run: cargo install cross --git https://github.com/cross-rs/cross
-
-      - name: Build for aarch64-linux-android
-        shell: bash
-        run: just cross-build aarch64
-
-      - name: Build for arm-linux-androideabi
-        shell: bash
-        run: just cross-build arm
-
-      - name: Build for x86_64-linux-android
-        shell: bash
-        run: just cross-build x86_64
-            
-      - name: Build for i686-linux-android
-        shell: bash
-        run: just cross-build i686
+        run: cargo build --verbose
      
       - name: Test
         shell: bash
