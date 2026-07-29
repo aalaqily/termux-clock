@@ -35,6 +35,12 @@ jobs:
       - name: Cache dependencies and binaries
         uses: Swatinem/rust-cache@v2
 
+      - name: Cache cross binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/bin
+          key: ${{ runner.os }}-cargo-bin
+
       - name: Install just
         uses: extractions/setup-just@v2
 
